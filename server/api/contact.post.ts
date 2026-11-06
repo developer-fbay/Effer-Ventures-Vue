@@ -19,7 +19,12 @@ export default defineEventHandler(async (event) => {
   }
 
   // Honeypot: real visitors never see or fill this field, bots do. Pretend it worked.
-  if (field(body, 'company', 200)) return { ok: true }
+  // Its name and label must not look like anything browser autofill knows (e.g. "company"),
+  // or a real visitor's autofill fills it and their message is silently dropped.
+  if (field(body, 'ev_hp', 200)) {
+    console.warn('contact: honeypot filled, message dropped')
+    return { ok: true }
+  }
 
   const firstName = field(body, 'first_name', 100)
   const lastName = field(body, 'last_name', 100)

@@ -206,7 +206,7 @@
 <span class="d-info">
 <span class="card-h">The right lender for UK SMEs</span>
 <span class="card-p">Funding Bay is a commercial finance broker for UK SMEs.</span>
-<span class="d-visit">Visit fundingbay.co.uk →</span>
+<span class="d-visit">Visit fundingbay.co.uk&nbsp;→</span>
 </span>
 </a>
 <a class="card" href="https://fbxcapital.co.uk">
@@ -215,7 +215,7 @@
 <span class="d-info">
 <span class="card-h">3× UK FinTech Awards finalist</span>
 <span class="card-p">FBX Capital Partners is a corporate and commercial debt advisory business.</span>
-<span class="d-visit">Visit fbxcapital.co.uk →</span>
+<span class="d-visit">Visit fbxcapital.co.uk&nbsp;→</span>
 </span>
 </a>
 <a class="card" href="https://legendseor.com">
@@ -224,7 +224,7 @@
 <span class="d-info">
 <span class="card-h">Offshore teams in Cape Town</span>
 <span class="card-p">Legends is an offshoring business in Cape Town.</span>
-<span class="d-visit">Visit legendseor.com →</span>
+<span class="d-visit">Visit legendseor.com&nbsp;→</span>
 </span>
 </a>
 <a class="card" href="https://bamops.co.uk">
@@ -233,7 +233,7 @@
 <span class="d-info">
 <span class="card-h">Builds the systems the group runs on</span>
 <span class="card-p">BAMOPS is the group's technology, automation and product business.</span>
-<span class="d-visit">Visit bamops.co.uk →</span>
+<span class="d-visit">Visit bamops.co.uk&nbsp;→</span>
 </span>
 </a>
 <a class="card" href="https://coworkcapetown.com">
@@ -242,7 +242,7 @@
 <span class="d-info">
 <span class="card-h">Desks, offices and meeting rooms</span>
 <span class="card-p">Co Work Cape Town is our co-working space at Wembley Square in Gardens, Cape Town.</span>
-<span class="d-visit">Visit coworkcapetown.com →</span>
+<span class="d-visit">Visit coworkcapetown.com&nbsp;→</span>
 </span>
 </a>
 </div>
@@ -254,7 +254,7 @@
 <span class="d-info">
 <span class="card-h">Sold to Bluestones Group in January 2025</span>
 <span class="card-p">ThinkWorkforce brought ThinkLocum and The Recruitment Shop together.</span>
-<span class="d-visit">ThinkWorkforce on LinkedIn →</span>
+<span class="d-visit">ThinkWorkforce on LinkedIn&nbsp;→</span>
 </span>
 </a>
 </div>
@@ -326,7 +326,7 @@
 </div>
 <form action="/api/contact" method="post" @submit.prevent="submitContact" style="display: flex; flex-direction: column; gap: 20px;">
 <p style="font-size: clamp(19px, 1.45vw, 23px); line-height: 1.7; color: #58595B;">Get in touch with us on <a class="chip chip-tel" href="tel:+442039300544">+44 (0) 20 3930 0544</a>, or fill in the form below.</p>
-<label class="hp" aria-hidden="true">Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
+<label class="hp" aria-hidden="true">Leave this empty<input type="text" name="ev_hp" tabindex="-1" autocomplete="off"></label>
 <div class="fields">
 <label class="field"><span style="font-size: 15px; color: #00123D; font-weight: 400;">First name<span aria-hidden="true" style="color: #FF66CC;"> *</span></span><input type="text" required name="first_name" autocomplete="given-name"></label>
 <label class="field"><span style="font-size: 15px; color: #00123D; font-weight: 400;">Last name<span aria-hidden="true" style="color: #FF66CC;"> *</span></span><input type="text" required name="last_name" autocomplete="family-name"></label>
@@ -394,14 +394,14 @@ export default {
     team() {
       const team = [
       { name: 'Alex Fenton', past: 'Multi-exited founder and entrepreneur', present: 'Head cheerleader', photo: '/images/team/alex.png', pos: '50% 100%', noPhoto: false, link: 'https://www.linkedin.com/' },
-      { name: 'Charlotte', past: '[to come]', present: 'Group Head of Operations', photo: '/images/team/charlotte.png', pos: '50% 50%', noPhoto: false, link: '#team' },
-      { name: 'Mbali', past: '[to come]', present: 'Founders Associate', photo: '/images/team/mbali.png', pos: '50% 50%', noPhoto: false, link: '#team' },
+      { name: 'Charlotte', past: '[to come]', present: 'Group Head of Operations', photo: '/images/team/charlotte.png', pos: '50% 25%', noPhoto: false, link: '#team' },
+      { name: 'Mbali', past: '[to come]', present: 'Founders Associate', photo: '/images/team/mbali.png', pos: '50% 25%', noPhoto: false, link: '#team' },
       { name: 'Juliet', past: '[to come]', present: '[to come]', photo: null, noPhoto: true, link: '#team' },
       { name: 'Tayla-Jade', past: '[to come]', present: 'People & Culture Manager', photo: '/images/team/tayla-jade.png', pos: '50% 50%', noPhoto: false, link: '#team' },
-      { name: 'Lindyn', past: '[to come]', present: 'People & Culture Administrator', photo: '/images/team/lindyn.png', pos: '50% 50%', noPhoto: false, link: '#team' },
+      { name: 'Lindyn', past: '[to come]', present: 'People & Culture Administrator', photo: '/images/team/lindyn.png', pos: '50% 25%', noPhoto: false, link: '#team' },
       { name: 'Lauren', past: '[to come]', present: 'GTM Engineer', photo: '/images/team/lauren.png', pos: '50% 20%', noPhoto: false, link: '#team' },
-      { name: 'Michael', past: '[to come]', present: 'Digital Marketing Manager', photo: '/images/team/michael.png', pos: '50% 100%', noPhoto: false, link: '#team' },
-      { name: 'FC', past: '[to come]', present: 'Group Finance Manager', photo: '/images/team/fc.png', pos: '50% 100%', noPhoto: false, link: '#team' },
+      { name: 'Michael', past: '[to come]', present: 'Digital Marketing Manager', photo: '/images/team/michael.png', pos: '50% 10%', noPhoto: false, link: '#team' },
+      { name: 'FC', past: '[to come]', present: 'Group Finance Manager', photo: '/images/team/fc.png', pos: '50% 0%', noPhoto: false, link: '#team' },
       { name: 'Suvaal', past: '[to come]', present: 'Senior Financial Accountant', photo: null, noPhoto: true, link: '#team' },
       { name: 'Austin', past: '[to come]', present: 'GTM Engineer', photo: '/images/team/austin.png', pos: '68% 50%', noPhoto: false, link: '#team' },
       { name: 'Nicayla', past: '[to come]', present: 'Social Media Content Specialist', photo: '/images/team/nicayla.png', pos: '50% 20%', noPhoto: false, link: '#team' }

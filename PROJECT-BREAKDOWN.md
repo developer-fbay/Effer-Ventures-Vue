@@ -68,7 +68,10 @@ change. This keeps Vue re-renders out of scroll handlers, so scrolling stays smo
   - `1279px`: group and team go from 4 to 3 across.
   - `1024px`: tablet, 2 across.
   - `767px`: phone, 1 across. The menu button replaces the links.
-  - `max-height: 760px`: short laptops get tighter cards.
+  - `max-height: 760px` (768px wide and up): short laptops get tighter group cards (mouse and
+    trackpad only; touch screens keep the open cards at full height), square team photos (4:3 up
+    to 1024px wide) and a more compact contact form, so the whole form down to Submit fits on one
+    screen.
 - Colours:
   - Navy `#00123D`, pink `#FF66CC`, purple `#7121FF`, grey text `#58595B`.
   - Cool grey sections `#E5EBF1`.
@@ -146,7 +149,8 @@ revisited.
     - The navy `.d-info` panel (headline, description, visit link) slides up from
       `translateY(101%)` to `0`.
   - On touch screens (`@media (hover:none)`) and on phones, the details are shown open under the
-    logo instead.
+    logo instead. The navy panel sits at the bottom of the card, so cards in a row line up.
+  - The visit links end in `&nbsp;→`, so the arrow never wraps onto a line of its own.
 - **Balloon girl** (`.ev-girl`): floats with scroll. See section 4.
 - **To add a company**:
   1. Copy a `<a class="card" …>` block.
@@ -159,14 +163,18 @@ revisited.
 - **Data**: the `team` computed list. Each entry has:
   - `name`, `past`, `present`
   - `photo`: a path, or `null` to show the placeholder icon
-  - `pos`: a CSS `object-position` that sets the crop
+  - `pos`: a CSS `object-position` that sets the crop. The tall 4:5 frame mostly ignores the
+    second (vertical) value; it matters in the square and 4:3 frames on short screens, so pick
+    one that keeps the whole head in view there
   - `noPhoto`
   - `link`
 
   To add or update someone, edit this list only.
 - **Photos**:
   - Black-and-white cut-outs: transparent PNG, about 800px wide, in `public/images/team/`.
-  - They sit on the pink-to-purple gradient in a 4:5 frame (`object-fit: cover`).
+  - They sit on the pink-to-purple gradient in a 4:5 frame (`object-fit: cover`). On screens
+    under 760px tall the frame is square (4:3 from 768 to 1024px wide), so no one's head is cut
+    off.
   - The background was removed with `rembg`, a local Python background-removal tool:
     - `isnet-general-use` model for most photos.
     - `u2net_human_seg` model where arms were being cut off.
@@ -348,8 +356,11 @@ Visitor fills the form
   button. The browser runs its own required-field and email checks first.
 - **Required fields**: first name, last name, email and message, marked with a pink asterisk.
   Phone is optional.
-- **Honeypot**: a hidden "Company" field (`.hp`, moved off screen, `tabindex="-1"`,
+- **Honeypot**: a hidden `ev_hp` field (`.hp`, moved off screen, `tabindex="-1"`,
   `aria-hidden`). People never fill it; bots usually do.
+  - Don't give it a name or label that browser autofill recognises ("company", "website",
+    "address", …). Chrome ignores `autocomplete="off"` for address data and fills off-screen
+    fields too, so a real visitor's message would be dropped and they'd still see "Thank you!".
 - **`submitContact(e)`**:
   1. Collects the fields with `FormData`.
   2. Sets `contactSending = true`, which disables the button and changes it to "Sending…".
@@ -359,7 +370,7 @@ Visitor fills the form
 
 ### Server route (`server/api/contact.post.ts`)
 
-- **Input**: JSON with `first_name`, `last_name`, `email`, `phone`, `message`, `company` (the
+- **Input**: JSON with `first_name`, `last_name`, `email`, `phone`, `message`, `ev_hp` (the
   honeypot).
 - **Cleaning**: values are trimmed and cut to a maximum length:
 
@@ -419,6 +430,9 @@ Visitor fills the form
   static files only and would drop the `/api/contact` function.
 - Cloudflare Pages settings: build command `npm run build`, output folder `dist`, plus the
   environment variables above.
+- The Pages project is **effer-ventures** on the Marketing@fundingbay.co.uk Cloudflare account,
+  connected to `developer-fbay/Effer-Ventures-Vue`. Every push to `main` deploys to
+  https://effer-ventures.pages.dev; other branches get their own preview URL.
 - Still to set up in Cloudflare: a **rate-limiting rule on `/api/contact`** (from the Notion task).
 
 ### Testing
@@ -431,8 +445,8 @@ Visitor fills the form
   ```
 
   This should return 400 with a "Please add …" message.
-- **Honeypot**: send any payload with `"company":"x"`. It should return `{ ok: true }` and send
-  nothing.
+- **Honeypot**: send any payload with `"ev_hp":"x"`. It should return `{ ok: true }`, send
+  nothing and log `contact: honeypot filled, message dropped`.
 - **Real send**: submit the form on a dev or preview build and check the n8n executions list.
 
 ---
@@ -487,4 +501,5 @@ Visitor fills the form
 - Contact: the Cloudflare rate-limiting rule. Optionally Header Auth on the n8n webhook, and
   Cloudflare Turnstile if spam gets through.
 - SEO: Open Graph image, Organization schema, sitemap, robots.txt, the WordPress 301 redirects.
-- Launch: connect the repo to Cloudflare Pages, and switch DNS only when Codi says go.
+- Launch: add the custom domain to the effer-ventures Pages project and switch DNS, only when
+  Codi says go.
