@@ -3,6 +3,12 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
   css: ['~/assets/css/site.css'],
+  // Server-only settings for the contact form, filled from NUXT_CONTACT_WEBHOOK_* environment variables.
+  runtimeConfig: {
+    contactWebhookUrl: '',
+    contactWebhookAuthHeader: '',
+    contactWebhookAuthValue: '',
+  },
   app: {
     head: {
       htmlAttrs: { lang: 'en-GB' },

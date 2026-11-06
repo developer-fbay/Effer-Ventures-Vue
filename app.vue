@@ -324,16 +324,17 @@
 <p style="font-size: 16px;">Wembley Square, 40 Solan Road<br>Gardens, Cape Town<br>8001</p>
 </div>
 </div>
-<form action="#contact" style="display: flex; flex-direction: column; gap: 20px;">
+<form action="/api/contact" method="post" @submit.prevent="submitContact" style="display: flex; flex-direction: column; gap: 20px;">
 <p style="font-size: clamp(19px, 1.45vw, 23px); line-height: 1.7; color: #58595B;">Get in touch with us on <a class="chip chip-tel" href="tel:+442039300544">+44 (0) 20 3930 0544</a>, or fill in the form below.</p>
+<label class="hp" aria-hidden="true">Company<input type="text" name="company" tabindex="-1" autocomplete="off"></label>
 <div class="fields">
-<label class="field"><span style="font-size: 15px; color: #00123D; font-weight: 400;">First name</span><input type="text" name="first_name" autocomplete="given-name"></label>
-<label class="field"><span style="font-size: 15px; color: #00123D; font-weight: 400;">Last name</span><input type="text" name="last_name" autocomplete="family-name"></label>
-<label class="field"><span style="font-size: 15px; color: #00123D; font-weight: 400;">Email</span><input type="email" name="email" autocomplete="email"></label>
+<label class="field"><span style="font-size: 15px; color: #00123D; font-weight: 400;">First name<span aria-hidden="true" style="color: #FF66CC;"> *</span></span><input type="text" required name="first_name" autocomplete="given-name"></label>
+<label class="field"><span style="font-size: 15px; color: #00123D; font-weight: 400;">Last name<span aria-hidden="true" style="color: #FF66CC;"> *</span></span><input type="text" required name="last_name" autocomplete="family-name"></label>
+<label class="field"><span style="font-size: 15px; color: #00123D; font-weight: 400;">Email<span aria-hidden="true" style="color: #FF66CC;"> *</span></span><input type="email" required name="email" autocomplete="email"></label>
 <label class="field"><span style="font-size: 15px; color: #00123D; font-weight: 400;">Phone number</span><input type="tel" name="phone" autocomplete="tel"></label>
-<label class="field full"><span style="font-size: 15px; color: #00123D; font-weight: 400;">Message</span><textarea name="message" rows="4"></textarea></label>
+<label class="field full"><span style="font-size: 15px; color: #00123D; font-weight: 400;">Message<span aria-hidden="true" style="color: #FF66CC;"> *</span></span><textarea required name="message" rows="4"></textarea></label>
 </div>
-<button class="btn" type="button" @click="openThanks" style="align-self: flex-start;">Submit</button>
+<button class="btn" type="submit" :disabled="contactSending" :aria-busy="contactSending" style="align-self: flex-start;">{{ contactSending ? 'Sending…' : 'Submit' }}</button>
 </form>
 </div>
 </section>
@@ -349,6 +350,15 @@
 </div>
 </div>
 
+<div class="ev-thanks ev-fail" role="alertdialog" aria-modal="true" aria-labelledby="ev-fail-h" aria-describedby="ev-fail-p" aria-hidden="true">
+<div class="ev-thanks-bg" @click="closeFail"></div>
+<div class="ev-thanks-card">
+<svg class="ev-fail-icon" viewBox="0 0 80 80" width="88" height="88" aria-hidden="true"><circle cx="40" cy="40" r="34" fill="none" stroke="#00123D" stroke-width="5"></circle><path d="M40 22 V45" fill="none" stroke="#FF66CC" stroke-width="6" stroke-linecap="round"></path><circle cx="40" cy="57" r="4" fill="#FF66CC"></circle></svg>
+<h3 id="ev-fail-h" style="color: #00123D;">Message not sent</h3>
+<p id="ev-fail-p" class="ev-fail-msg">Something went wrong on our side. Please try again, or email us at <a href="mailto:enquiries@effer-ventures.com">enquiries@effer-ventures.com</a>.</p>
+<button type="button" class="btn" @click="closeFail">Try again</button>
+</div>
+</div>
 <footer style="background: linear-gradient(50deg, #9855A2 0%, #FF66CC 93%); color: #FFFFFF; padding-block: 64px;">
 <div class="wrap foot">
 <div style="display: flex; flex-direction: column; gap: 20px;">
@@ -378,7 +388,7 @@
 // smooth in-page links, footer logo slide-in and the contact thank-you popup.
 export default {
   data() {
-    return { tmDots: 5, tmIdx: 0 }
+    return { tmDots: 5, tmIdx: 0, contactSending: false }
   },
   computed: {
     team() {
@@ -422,7 +432,7 @@ export default {
     window.addEventListener('keydown', this.onMenuKey);
     this.onMenuResize = () => { if (window.innerWidth > 767) this.setMenu(false); };
     window.addEventListener('resize', this.onMenuResize, { passive: true });
-    this.onThanksKey = (e) => { if (e.key === 'Escape') this.closeThanks(); };
+    this.onThanksKey = (e) => { if (e.key === 'Escape') { this.closeThanks(); this.closeFail(); } };
     window.addEventListener('keydown', this.onThanksKey);
     this.onAnchor = (e) => {
     const a = e.target.closest && e.target.closest('a[href^="#"]');
@@ -814,6 +824,47 @@ export default {
     toggleMenu() {
     const hdr = document.querySelector('.ev header');
     this.setMenu(!(hdr && hdr.classList.contains('menu-open')));
+    },
+    openFail(msg) {
+    const d = document.querySelector('.ev-fail');
+    if (!d) return;
+    this.failReturn = document.activeElement;
+    const p = d.querySelector('.ev-fail-msg');
+    if (p && !this.failDefault) this.failDefault = p.innerHTML;
+    if (p) { if (msg) p.textContent = msg; else p.innerHTML = this.failDefault; }
+    d.classList.remove('open');
+    void d.offsetWidth;
+    d.classList.add('open');
+    d.setAttribute('aria-hidden', 'false');
+    const b = d.querySelector('.btn');
+    if (b) setTimeout(() => b.focus({ preventScroll: true }), 60);
+    },
+    closeFail() {
+    const d = document.querySelector('.ev-fail');
+    if (!d || !d.classList.contains('open')) return;
+    d.classList.remove('open');
+    d.setAttribute('aria-hidden', 'true');
+    if (this.failReturn && this.failReturn.focus) this.failReturn.focus({ preventScroll: true });
+    },
+    async submitContact(e) {
+      if (this.contactSending) return
+      const form = e.target
+      const data = Object.fromEntries(new FormData(form))
+      this.contactSending = true
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+        const out = await res.json().catch(() => ({}))
+        if (!res.ok || !out.ok) { this.openFail(out.message); return }
+        this.openThanks()
+      } catch (err) {
+        this.openFail()
+      } finally {
+        this.contactSending = false
+      }
     },
     teamPrev() { this.teamMove(-1) },
     teamNext() { this.teamMove(1) },

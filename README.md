@@ -8,21 +8,32 @@ static HTML and hosted on Cloudflare Pages.
 
 ```bash
 npm install
+cp .env.example .env   # then fill in NUXT_CONTACT_WEBHOOK_URL (never commit .env)
 npm run dev        # http://localhost:3000
 ```
 
 ## Build
 
 ```bash
-npm run generate   # static site in .output/public (also copied to dist/)
+npm run build      # Cloudflare Pages output in dist/: the prerendered page plus the
+                   # /api/contact function (a plain `generate` would drop the function)
 npx wrangler pages dev dist      # preview the Cloudflare Pages build locally
 ```
+
+On Cloudflare Pages, set the build command to `npm run build`, the output folder to `dist`,
+and add these as encrypted environment variables:
+
+- `NUXT_CONTACT_WEBHOOK_URL`: the n8n webhook's Production URL
+- `NUXT_CONTACT_WEBHOOK_AUTH_HEADER` and `NUXT_CONTACT_WEBHOOK_AUTH_VALUE`: optional, if the n8n
+  webhook uses Header Auth
 
 ## Where things are
 
 - `app.vue`: the whole page (markup and behaviour). Sections in order: header (with the
   mobile menu), hero, What we do, Our group (Current and Exited), Our team, Join us,
-  Contact (with the thank-you popup), footer.
+  Contact (with the thank-you and failed popups), footer.
+- `server/api/contact.post.ts`: the contact form route. Checks the fields, drops spam caught
+  by the hidden honeypot field, and forwards the message to the n8n webhook.
 - `assets/css/site.css`: layout, responsive breakpoints and animations.
 - `public/images/`: illustrations; `public/images/logos/` the group company logos (colour for
   the cards, white for the footer); `public/images/team/` the black-and-white team cut-outs.
@@ -39,14 +50,16 @@ npx wrangler pages dev dist      # preview the Cloudflare Pages build locally
 - Our team: arrows and dots, mouse drag with momentum, swipe on touch, and a 5-second
   auto-slide that starts when the carousel is on screen.
 - Join us: the clouds and the grey sky drift in as the section scrolls into view.
-- Contact: Submit shows the thank-you popup (nothing is sent yet).
+- Contact: Submit posts to `/api/contact`, which sends the message to n8n. The button shows
+  "Sending…", then the thank-you popup on success or a "Message not sent" popup with the
+  reason (a missing field, or try again / email us if n8n could not be reached).
 - Footer: the group logos slide in.
 - In-page links glide to their section. All motion stops for visitors with reduced motion on.
 
 ## Still to do
 
-- Contact form: `/api/contact` server route to the n8n webhook, with the secret in an encrypted
-  Cloudflare Pages environment variable (never in the repo). Show the popup only on success.
+- Contact form: add a Cloudflare rate-limiting rule on `/api/contact` and, if wanted, Header Auth
+  on the n8n webhook; confirm with Codi where the n8n flow sends each message.
 - Team: photos for Juliet and Suvaal, and everyone's Past/Present lines (currently "[to come]");
   real LinkedIn links.
 - Self-host Circular as WOFF2 (Figtree is a stand-in for now).

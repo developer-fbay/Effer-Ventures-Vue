@@ -119,6 +119,10 @@ html{scroll-padding-top:88px}
 .ev-thanks-card h3{font-size:38px;font-weight:900;letter-spacing:-1px;line-height:1.1}
 .ev-thanks-card p{font-size:17px;line-height:1.5;color:#58595B;max-width:32ch}
 .ev-thanks-card .btn{margin-top:8px}
+.ev-fail .ev-thanks-card{border-top:5px solid #FF66CC}
+.ev-fail-icon{transform:scale(.7);opacity:0;transition:transform .5s cubic-bezier(.34,1.56,.64,1) .15s,opacity .3s ease .15s}
+.ev-thanks.open .ev-fail-icon{transform:none;opacity:1}
+.ev-fail-msg a{color:#00123D;font-weight:800}
 .ev-thanks-tick .c{stroke-dasharray:214;stroke-dashoffset:214}
 .ev-thanks-tick .t{stroke-dasharray:52;stroke-dashoffset:52}
 .ev-thanks.open .ev-thanks-tick .c{stroke-dashoffset:0;transition:stroke-dashoffset .7s ease .25s}
@@ -205,3 +209,5 @@ html{scroll-behavior:smooth}
 .foot-logos{justify-content:center;margin-inline:auto}
 .foot-txt{align-items:center !important}
 }
+.hp{position:absolute !important;left:-9999px;width:1px;height:1px;overflow:hidden}
+.btn[disabled]{opacity:.7;cursor:progress}
