@@ -24,8 +24,9 @@ On Cloudflare Pages, set the build command to `npm run build`, the output folder
 and add these as encrypted environment variables:
 
 - `NUXT_CONTACT_WEBHOOK_URL`: the n8n webhook's Production URL
-- `NUXT_CONTACT_WEBHOOK_AUTH_HEADER` and `NUXT_CONTACT_WEBHOOK_AUTH_VALUE`: optional, if the n8n
-  webhook uses Header Auth
+- `NUXT_CONTACT_WEBHOOK_AUTH_HEADER` and `NUXT_CONTACT_WEBHOOK_AUTH_VALUE`: the header name
+  (`X-Webhook-Secret`) and value of the n8n webhook's Header Auth. Without them n8n refuses the
+  message.
 
 ## Where things are
 
@@ -58,8 +59,8 @@ and add these as encrypted environment variables:
 
 ## Still to do
 
-- Contact form: add a Cloudflare rate-limiting rule on `/api/contact` and, if wanted, Header Auth
-  on the n8n webhook; confirm with Codi where the n8n flow sends each message.
+- Contact form: add a Cloudflare rate-limiting rule on `/api/contact`; confirm with Codi where
+  the n8n flow sends each message.
 - Team: photos for Juliet and Suvaal, and everyone's Past/Present lines (currently "[to come]");
   real LinkedIn links.
 - Self-host Circular as WOFF2 (Figtree is a stand-in for now).

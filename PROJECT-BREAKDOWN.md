@@ -394,9 +394,9 @@ Visitor fills the form
   }
   ```
 
-- **Auth (optional)**: if `NUXT_CONTACT_WEBHOOK_AUTH_HEADER` and
-  `NUXT_CONTACT_WEBHOOK_AUTH_VALUE` are set, that header is added to the request. This pairs with
-  a "Header Auth" credential on the n8n Webhook node.
+- **Auth**: if `NUXT_CONTACT_WEBHOOK_AUTH_HEADER` and `NUXT_CONTACT_WEBHOOK_AUTH_VALUE` are set,
+  that header is added to the request. This pairs with the "Header Auth" credential on the n8n
+  Webhook node, which is switched on, so both must be set or n8n refuses the message.
 - **Reply**: always `{ ok, message? }`, so the page can show the right popup.
 - **Logging**: failures go to the server log (`console.error`) with the status code. The visitor's
   details are not logged.
@@ -406,8 +406,8 @@ Visitor fills the form
 | Variable | Purpose |
 |---|---|
 | `NUXT_CONTACT_WEBHOOK_URL` | the n8n Webhook node's **Production** URL |
-| `NUXT_CONTACT_WEBHOOK_AUTH_HEADER` | optional header name for n8n Header Auth |
-| `NUXT_CONTACT_WEBHOOK_AUTH_VALUE` | optional header value (the secret) |
+| `NUXT_CONTACT_WEBHOOK_AUTH_HEADER` | header name for n8n Header Auth: `X-Webhook-Secret` |
+| `NUXT_CONTACT_WEBHOOK_AUTH_VALUE` | header value (the secret) |
 
 - **Locally**: copy `.env.example` to `.env` and fill it in. `.env` is git-ignored.
 - **Cloudflare Pages**: add these as **encrypted** environment variables in the project's
@@ -418,6 +418,8 @@ Visitor fills the form
 ### n8n side
 
 - The workflow starts with a **Webhook** node (POST).
+- The node uses **Header Auth** (credential "EV-Webhook-Secret", header `X-Webhook-Secret`). A
+  request without the right header gets a 403, which shows the visitor the failed popup.
 - Use the node's **Production URL**. The Test URL only works while the editor is listening.
 - The workflow must be **active**.
 - The webhook should answer with a 2xx status. Any non-2xx or a timeout shows the visitor the
@@ -498,8 +500,7 @@ Visitor fills the form
 - Split `app.vue` into section components, and move the team and company data into data files.
 - Self-host the Circular font (WOFF2) in place of Figtree.
 - Team: photos for Juliet and Suvaal, every "Past" line, real LinkedIn links.
-- Contact: the Cloudflare rate-limiting rule. Optionally Header Auth on the n8n webhook, and
-  Cloudflare Turnstile if spam gets through.
+- Contact: the Cloudflare rate-limiting rule, and Cloudflare Turnstile if spam gets through.
 - SEO: Open Graph image, Organization schema, sitemap, robots.txt, the WordPress 301 redirects.
 - Launch: add the custom domain to the effer-ventures Pages project and switch DNS, only when
   Codi says go.
