@@ -5,7 +5,9 @@ a{color:#7121FF}a:hover{color:#00123D}
 .ev h1,.ev h2,.ev h3,.ev p,.ev ul,.ev ol{margin:0}
 .ev h2{margin-bottom:20px}
 .ev a:focus-visible,.ev button:focus-visible,.ev input:focus-visible,.ev textarea:focus-visible{outline:3px solid #FF66CC;outline-offset:2px}
-.wrap{max-width:1600px;margin:0 auto;padding-inline:24px}
+/* Side space grows steadily from 24px at 1280 wide to the full margins at 1920, so zoomed and mid-size screens keep room to breathe. */
+:root{--wrap:min(1600px,calc(640px + 50vw));--gutter:max(24px,calc((100vw - var(--wrap)) / 2 + 24px))}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:24px}
 .gtxt{background:linear-gradient(to right top,#FF66CC,#EC4BD4,#D232E0,#AC21EF,#7121FF);-webkit-background-clip:text;background-clip:text;color:transparent}
 .nav a{display:flex;align-items:center;color:#FFFFFF;text-decoration:none;transition:padding .45s cubic-bezier(.4,0,.2,1),color .2s ease}
 .nav{white-space:nowrap;transition:gap .45s cubic-bezier(.4,0,.2,1),margin .45s cubic-bezier(.4,0,.2,1)}
@@ -46,7 +48,7 @@ header.nav-min .nav-ico{width:22px;opacity:1;transition:width .45s cubic-bezier(
 .join-pink-full img + img{display:none !important}.join-pink-full{bottom:0 !important;-webkit-mask-image:linear-gradient(to top,transparent 0,rgba(0,0,0,.35) 22%,#000 62%);mask-image:linear-gradient(to top,transparent 0,rgba(0,0,0,.35) 22%,#000 62%)}
 html{scroll-padding-top:88px}
 .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
-.hero-txt{padding-left:max(24px,calc((100vw - 1600px) / 2 + 24px))}
+.hero-txt{padding-left:var(--gutter)}
 .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px}
 .look{display:grid;grid-template-columns:minmax(0,0.75fr) minmax(0,1.25fr);align-items:center;gap:64px}
 /* Plane: two plain images and a soft white panel, moved with transform and opacity only, so phones can animate them on the GPU. Units are % of the 1600 x 1207 stage. */
@@ -68,11 +70,11 @@ html{scroll-padding-top:88px}
 /* The keyframes below are the old SVG flight path and easing, sampled every 2.5%. */
 @keyframes ev-pl-fly{0%{transform:translate(-15.6%,111.59%) rotate(10.88deg)}2.5%{transform:translate(-12.84%,110.83%) rotate(10.02deg)}5%{transform:translate(-9.61%,109.87%) rotate(8.98deg)}7.5%{transform:translate(-5.87%,108.65%) rotate(7.71deg)}10%{transform:translate(-1.66%,107.12%) rotate(6.19deg)}12.5%{transform:translate(3.03%,105.23%) rotate(4.38deg)}15%{transform:translate(8.15%,102.91%) rotate(2.24deg)}17.5%{transform:translate(13.65%,100.08%) rotate(-0.29deg)}20%{transform:translate(19.38%,96.71%) rotate(-3.22deg)}22.5%{transform:translate(25.18%,92.78%) rotate(-6.56deg)}25%{transform:translate(30.87%,88.32%) rotate(-10.33deg)}27.5%{transform:translate(36.26%,83.4%) rotate(-14.45deg)}30%{transform:translate(41.2%,78.13%) rotate(-18.88deg)}32.5%{transform:translate(45.6%,72.62%) rotate(-23.53deg)}35%{transform:translate(49.4%,67.01%) rotate(-28.31deg)}37.5%{transform:translate(52.62%,61.43%) rotate(-31.62deg)}40%{transform:translate(55.46%,56.14%) rotate(-32.96deg)}42.5%{transform:translate(58%,51.25%) rotate(-33.36deg)}45%{transform:translate(60.34%,46.76%) rotate(-32.94deg)}47.5%{transform:translate(62.5%,42.72%) rotate(-31.83deg)}50%{transform:translate(64.54%,39.09%) rotate(-30.15deg)}52.5%{transform:translate(66.47%,35.9%) rotate(-28.04deg)}55%{transform:translate(68.31%,33.08%) rotate(-25.62deg)}57.5%{transform:translate(70.06%,30.64%) rotate(-23.03deg)}60%{transform:translate(71.71%,28.54%) rotate(-20.39deg)}62.5%{transform:translate(73.26%,26.73%) rotate(-17.77deg)}65%{transform:translate(74.71%,25.19%) rotate(-15.26deg)}67.5%{transform:translate(76.04%,23.89%) rotate(-12.93deg)}70%{transform:translate(77.27%,22.79%) rotate(-10.77deg)}72.5%{transform:translate(78.38%,21.87%) rotate(-8.83deg)}75%{transform:translate(79.38%,21.1%) rotate(-7.12deg)}77.5%{transform:translate(80.26%,20.47%) rotate(-5.63deg)}80%{transform:translate(81.04%,19.93%) rotate(-4.32deg)}82.5%{transform:translate(81.71%,19.5%) rotate(-3.22deg)}85%{transform:translate(82.28%,19.15%) rotate(-2.3deg)}87.5%{transform:translate(82.75%,18.87%) rotate(-1.54deg)}90%{transform:translate(83.12%,18.66%) rotate(-0.96deg)}92.5%{transform:translate(83.41%,18.5%) rotate(-0.51deg)}95%{transform:translate(83.6%,18.39%) rotate(-0.21deg)}97.5%{transform:translate(83.71%,18.33%) rotate(-0.04deg)}100%{transform:translate(83.75%,18.31%) rotate(0.02deg)}}
 @keyframes ev-pl-wipe{0%{transform:translate(-15.6%,111.59%)}2.5%{transform:translate(-12.84%,110.83%)}5%{transform:translate(-9.61%,109.87%)}7.5%{transform:translate(-5.87%,108.65%)}10%{transform:translate(-1.66%,107.12%)}12.5%{transform:translate(3.03%,105.23%)}15%{transform:translate(8.15%,102.91%)}17.5%{transform:translate(13.65%,100.08%)}20%{transform:translate(19.38%,96.71%)}22.5%{transform:translate(25.18%,92.78%)}25%{transform:translate(30.87%,88.32%)}27.5%{transform:translate(36.26%,83.4%)}30%{transform:translate(41.2%,78.13%)}32.5%{transform:translate(45.6%,72.62%)}35%{transform:translate(49.4%,67.01%)}37.5%{transform:translate(52.62%,61.43%)}40%{transform:translate(55.46%,56.14%)}42.5%{transform:translate(58%,51.25%)}45%{transform:translate(60.34%,46.76%)}47.5%{transform:translate(62.5%,42.72%)}50%{transform:translate(64.54%,39.09%)}52.5%{transform:translate(66.47%,35.9%)}55%{transform:translate(68.31%,33.08%)}57.5%{transform:translate(70.06%,30.64%)}60%{transform:translate(71.71%,28.54%)}62.5%{transform:translate(73.26%,26.73%)}65%{transform:translate(74.71%,25.19%)}67.5%{transform:translate(76.04%,23.89%)}70%{transform:translate(77.27%,22.79%)}72.5%{transform:translate(78.38%,21.87%)}75%{transform:translate(79.38%,21.1%)}77.5%{transform:translate(80.26%,20.47%)}80%{transform:translate(81.04%,19.93%)}82.5%{transform:translate(81.71%,19.5%)}85%{transform:translate(82.28%,19.15%)}87.5%{transform:translate(82.75%,18.87%)}90%{transform:translate(83.12%,18.66%)}92.5%{transform:translate(83.41%,18.5%)}95%{transform:translate(83.6%,18.39%)}97.5%{transform:translate(83.71%,18.33%)}100%{transform:translate(83.75%,18.31%)}}
-.look > div:last-child{padding-right:max(24px, calc((100vw - 1600px) / 2 + 24px));padding-top:48px;padding-bottom:clamp(48px, 6vw, 96px)}
+.look > div:last-child{padding-right:var(--gutter);padding-top:48px;padding-bottom:clamp(48px, 6vw, 96px)}
 .cards{--g:clamp(24px,2.4vw,44px);display:flex;flex-wrap:wrap;justify-content:flex-start;gap:var(--g)}
 .cards > .card{flex:0 0 calc((100% - 3 * var(--g)) / 4);min-width:0}
 @media (max-width:1279px) and (min-width:1025px){.cards > .card{flex-basis:calc((100% - 2 * var(--g)) / 3)}}
-.card{position:relative;display:block;height:clamp(230px,17vw,300px);background:#FFFFFF;border-radius:16px 0;overflow:hidden;text-decoration:none;box-shadow:0 2px 6px rgba(0,18,61,.05);transition:box-shadow .45s ease}
+.card{position:relative;display:block;height:max(clamp(230px,17vw,300px),calc(var(--info-max,0px) + 88px));background:#FFFFFF;border-radius:16px 0;overflow:hidden;text-decoration:none;box-shadow:0 2px 6px rgba(0,18,61,.05);transition:box-shadow .45s ease}
 .card:hover,.card:focus-visible{box-shadow:0 18px 40px rgba(0,18,61,.14)}
 .card-out{background:#F7F7F9}
 .d-logo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .5s cubic-bezier(.4,0,.2,1)}
@@ -83,9 +85,9 @@ html{scroll-padding-top:88px}
 .card-p{font-size:14px;line-height:1.5;color:#C9D1E0}
 .d-visit{margin-top:6px;font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#FF66CC}
 .card:hover .d-info,.card:focus-visible .d-info{transform:none}
-.card:hover .d-logo,.card:focus-visible .d-logo{transform:translateY(-24%) scale(.8)}
+.card:hover .d-logo,.card:focus-visible .d-logo{transform:translateY(calc(var(--info,44%) / -2)) scale(.8)}
 .card:hover .d-tag,.card:focus-visible .d-tag{opacity:0}
-@media (hover:none){.card{height:auto;display:flex;flex-direction:column}.d-logo{position:relative;inset:auto;height:150px}.d-tag{position:static;display:block;padding:0 20px 18px}.d-info{position:relative;transform:none;margin-top:auto}}
+@media (hover:none){.card{height:auto;display:flex;flex-direction:column}.d-logo{position:relative;inset:auto;height:150px}.d-tag{position:static;display:block;padding:0 20px 18px}.d-info{position:relative;transform:none;margin-top:auto}.card:hover .d-logo,.card:focus-visible .d-logo{transform:none}}
 .chip{font-size:12px;font-weight:300;letter-spacing:2.5px;line-height:1.2;text-transform:uppercase;color:#C2188F;background:#FFF4FB;padding:7px 12px;border-radius:8px 0}
 .chip-out{color:#FFFFFF;background:#00123D}
 .chip-tel{display:inline-block;vertical-align:middle;font-size:14px;letter-spacing:2px;text-decoration:none;margin:0 2px;transition:background-color .45s ease,color .45s ease}
@@ -183,7 +185,7 @@ html{scroll-behavior:smooth}
 .ev-girl-bob{transform-origin:70% 0%;animation:ev-bob 3.6s ease-in-out infinite alternate}
 @keyframes ev-bob{0%{transform:translateY(0) rotate(-1deg)}100%{transform:translateY(-22px) rotate(1deg)}}
 @media (prefers-reduced-motion:reduce){.card,.d-logo,.d-tag,.d-info,.btn,.tm-arrow{transition:none}.wv,.fs,.fs-lead,.ev-girl-bob{animation:none}}
-@media (max-height:760px) and (min-width:768px) and (hover:hover){.card{height:220px}}
+@media (max-height:760px) and (min-width:768px) and (hover:hover){.card{height:max(220px,calc(var(--info-max,0px) + 88px))}}
 @media (max-height:760px) and (min-width:768px){.tm-photo{aspect-ratio:1 / 1 !important;max-height:none !important}}
 @media (max-height:760px) and (min-width:768px) and (max-width:1024px){.tm-photo{aspect-ratio:4 / 3 !important}}
 @media (max-height:760px) and (min-width:768px){#contact form{gap:14px !important}#contact form > p{line-height:1.5 !important}.fields{gap:12px}.field{gap:4px}.field input{padding-block:9px}.field textarea{height:88px}}

@@ -63,7 +63,7 @@ change. This keeps Vue re-renders out of scroll handlers, so scrolling stays smo
 
 ### Page-wide layout rules
 
-- `.wrap`: the content container, max 1600px wide with 24px side gutters.
+- `.wrap`: the content container. Max 1600px wide with 24px side gutters; between 1280 and 1920 wide the maximum scales with the screen (`--wrap`), so side space grows steadily instead of only appearing above 1648. `--gutter` is the same side space for sections that bleed to one edge.
 - `.sec-full`: makes a section at least one screen tall below the header:
   `min-height: calc(100svh - 88px)`. Switched off on phones so sections fit their content.
 - Breakpoints:
@@ -161,7 +161,7 @@ revisited.
 - **Card design**:
   - At rest a card shows only the logo (`.d-logo`) and the sector (`.d-tag`).
   - On `:hover` or `:focus-visible`:
-    - The logo moves up 24% and shrinks to 80%.
+    - The logo moves up by half the height of its own panel, so it centres in the space above it, and shrinks to 80%. Cards are always at least 88px taller than the tallest panel (`--info` and `--info-max`, measured in `setupGroupCards`).
     - The sector fades out.
     - The navy `.d-info` panel (headline, description, visit link) slides up from
       `translateY(101%)` to `0`.

@@ -283,7 +283,7 @@
 </section>
 
 <section id="contact" class="sec sec-full" style="background: #FFFFFF; padding-block: clamp(32px, 7vh, 112px); display: flex; flex-direction: column; justify-content: center; overflow: hidden;">
-<div class="contact" style="max-width: 1648px; width: 100%; margin: 0 auto; padding-right: 24px; align-items: center;">
+<div class="contact" style="max-width: calc(var(--wrap) + 48px); width: 100%; margin: 0 auto; padding-right: min(48px, var(--gutter)); align-items: center;">
 <img class="contact-head" src="/images/head.png" alt="" style="width: 100%; height: clamp(380px, calc(100svh - 280px), 620px); object-fit: contain; object-position: right center; display: block;">
 <div style="display: flex; flex-direction: column; gap: 28px; padding-left: 24px;">
 <h2 style="font-size: clamp(34px, 3.2vw, 52px); font-weight: 900; line-height: 1.05; letter-spacing: -1.5px; color: #00123D;">Contact</h2>
@@ -467,6 +467,7 @@ export default {
     if (this.teamTrack) this.teamTrack.scrollTo({ left: this.tmBase + this.tmW, behavior: 'instant' });
     });
     this.setupTeamDrag();
+    this.setupGroupCards();
     this.startTeamAuto();
     // footer group logos slide in when the footer comes into view, and again on the next pass down
     const fl = document.querySelector('.foot-logos');
@@ -516,6 +517,7 @@ export default {
     if (this.io) this.io.disconnect();
     if (this.ioHero) this.ioHero.disconnect();
     if (this.ioLogos) this.ioLogos.disconnect();
+    if (this.roCards) this.roCards.disconnect();
     if (this.onTeamResize) window.removeEventListener('resize', this.onTeamResize);
     if (this.onTeamMove) {
     window.removeEventListener('pointermove', this.onTeamMove);
@@ -604,6 +606,22 @@ export default {
     document.addEventListener('scroll', this.onCloudScroll, { passive: true, capture: true });
     window.addEventListener('resize', this.onCloudScroll, { passive: true });
     update();
+    },
+    // the logo has to clear each card's details panel, and how tall that is depends on how its text wraps
+    setupGroupCards() {
+    const group = document.getElementById('portfolio');
+    const cards = [...document.querySelectorAll('.card')];
+    if (!group || !cards.length || !('ResizeObserver' in window)) return;
+    this.roCards = new ResizeObserver(() => {
+    let tallest = 0;
+    for (const card of cards) {
+    const h = card.querySelector('.d-info').offsetHeight;
+    card.style.setProperty('--info', h + 'px');
+    tallest = Math.max(tallest, h);
+    }
+    group.style.setProperty('--info-max', tallest + 'px');
+    });
+    cards.forEach((card) => this.roCards.observe(card.querySelector('.d-info')));
     },
     measureTeam() {
     const t = this.teamTrack;
