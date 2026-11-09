@@ -141,41 +141,17 @@
 <g class="fs-lead"><use href="#ev-fish-v" transform="translate(55 800) rotate(-44) scale(1.36)"></use></g>
 </g>
 </svg>
+<div class="hero-lite" aria-hidden="true"><i class="w1"></i><i class="w2"></i><i class="w3"></i><i class="w4"></i><i class="fa"></i><i class="fb"></i><i class="fl"></i></div>
 </section>
 
 <section id="what" class="sec ev-mandate" style="background: #FFFFFF; padding-top: 64px; padding-bottom: 0; display: flex; flex-direction: column; justify-content: flex-end;">
 <div class="look">
 <div class="look-img" style="position: relative;">
-<svg ref="plSvg" viewBox="0 3 1600 1207" preserveAspectRatio="xMinYMax meet" aria-hidden="true" style="width: 100%; height: auto; aspect-ratio: 1600 / 1207; max-height: min(520px, calc(100svh - 136px)); display: block; overflow: hidden;">
-<defs>
-<filter id="ev-pl-soft" filterUnits="userSpaceOnUse" x="-1400" y="-1400" width="4400" height="4000"><feGaussianBlur stdDeviation="60"></feGaussianBlur></filter>
-<filter id="ev-pl-shadow" x="-20%" y="-20%" width="150%" height="160%"><feDropShadow dx="10" dy="22" stdDeviation="14" flood-color="#0B1D3A" flood-opacity="0.35"></feDropShadow></filter>
-<mask id="ev-pl-mask" maskUnits="userSpaceOnUse" x="-1400" y="-1400" width="4400" height="4000">
-<path d="M -250 1350 C 250 1250 600 1050 800 800 C 980 570 1080 330 1340 224" fill="none" stroke="#FFFFFF" stroke-width="2400" stroke-linecap="butt" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" filter="url(#ev-pl-soft)">
-<animate attributeName="stroke-dashoffset" from="1" to="0" dur="3.4s" begin="indefinite" class="ev-pl-anim" calcMode="spline" keyTimes="0;1" keySplines="0.3 0.25 0.3 1" fill="freeze"></animate>
-</path>
-<rect x="-200" y="-200" width="2000" height="1600" fill="#FFFFFF" opacity="0">
-<animate attributeName="opacity" values="0;0;1" keyTimes="0;0.85;1" dur="3.8s" begin="indefinite" class="ev-pl-anim" fill="freeze"></animate>
-</rect>
-</mask>
-</defs>
-<image href="/images/plane-scene.webp" x="0" y="0" width="1600" height="1210" opacity="0.18"></image>
-<image href="/images/plane-scene.webp" x="0" y="0" width="1600" height="1210" mask="url(#ev-pl-mask)"></image>
-<g transform="translate(-600 0)">
-<g transform="translate(600 0)">
-<g opacity="0">
-<animate attributeName="opacity" values="1;1" dur="3.4s" begin="indefinite" class="ev-pl-anim" fill="freeze"></animate>
-<animateMotion path="M -250 1350 C 250 1250 600 1050 800 800 C 980 570 1080 330 1340 224" rotate="auto" dur="3.4s" begin="indefinite" class="ev-pl-anim" calcMode="spline" keyPoints="0;1" keyTimes="0;1" keySplines="0.3 0.25 0.3 1" fill="freeze"></animateMotion>
-<g transform="rotate(22.2)">
-<g>
-<animateTransform attributeName="transform" type="translate" values="0 0;0 -10;0 0" dur="3s" begin="indefinite" class="ev-pl-bob" repeatCount="indefinite"></animateTransform>
-<image href="/images/plane.png" x="-226" y="-164" width="453" height="327" filter="url(#ev-pl-shadow)"></image>
-</g>
-</g>
-</g>
-</g>
-</g>
-</svg>
+<div ref="plStage" class="pl-stage" aria-hidden="true">
+<img class="pl-scene" src="/images/plane-scene.webp" alt="" width="1600" height="1210" decoding="async">
+<div class="pl-wipe"><i></i></div>
+<div class="pl-fly"><img class="pl-bob" src="/images/plane-shadow.webp" alt="" width="679" height="523" decoding="async"></div>
+</div>
 </div>
 <div style="display: flex; flex-direction: column; gap: 24px;">
 <h2 style="font-size: clamp(34px, 3.2vw, 52px); font-weight: 900; line-height: 1.05; letter-spacing: -1.5px; color: #00123D;">What we do</h2>
@@ -423,7 +399,7 @@ export default {
     },
   },
   mounted() {
-    this.plSvg = this.$refs.plSvg
+    this.plStage = this.$refs.plStage
     this.girlBox = this.$refs.girlBox
     this.whySec = this.$refs.whySec
     this.teamTrack = this.$refs.teamTrack
@@ -435,7 +411,7 @@ export default {
     }
     this.onMenuKey = (e) => { if (e.key === 'Escape') this.setMenu(false); };
     window.addEventListener('keydown', this.onMenuKey);
-    this.onMenuResize = () => { if (window.innerWidth > 767) this.setMenu(false); };
+    this.onMenuResize = () => { if (window.innerWidth > 767) this.setMenu(false); this.heroRest(); };
     window.addEventListener('resize', this.onMenuResize, { passive: true });
     this.onThanksKey = (e) => { if (e.key === 'Escape') { this.closeThanks(); this.closeFail(); } };
     window.addEventListener('keydown', this.onThanksKey);
@@ -455,23 +431,27 @@ export default {
     box = box || root;
     const hdr = document.querySelector('.ev header');
     // land on the section's content (24px of its top padding stays) just under the bar's final height:
-    // heading down the page the bar slims to 66px, heading up it opens to its full 88px
+    // heading down the page the bar slims to 66px, heading up it opens to its full 88px (phones keep 66px)
+    const full = window.innerWidth <= 767 ? 66 : 88;
     const spot = () => {
     const base = box === root ? 0 : box.getBoundingClientRect().top;
     const pad = el.id === 'top' ? 0 : Math.max(0, parseFloat(getComputedStyle(el).paddingTop) - 24);
     return el.getBoundingClientRect().top - base + box.scrollTop + pad;
     };
     const down = spot() - 66 > box.scrollTop;
-    const aim = () => { const to = spot(); return Math.max(0, Math.round(to - (!hdr ? 0 : down && to - 66 >= 120 ? 66 : 88))); };
+    const aim = () => { const to = spot(); return Math.max(0, Math.round(to - (!hdr ? 0 : down && to - 66 >= 120 ? 66 : full))); };
     box.scrollTo({ top: aim(), behavior: calm ? 'auto' : 'smooth' });
-    // the page may still be loading or the bar resizing: check the aim once the glide ends, unless the visitor took over
+    // the page may still be loading: check the aim once the glide has really stopped, unless the visitor took over
     let mine = true;
     const off = () => { mine = false; };
     ['wheel', 'touchstart', 'keydown'].forEach((ev) => window.addEventListener(ev, off, { once: true, passive: true }));
     setTimeout(() => {
+    const y = box.scrollTop;
+    setTimeout(() => {
     ['wheel', 'touchstart', 'keydown'].forEach((ev) => window.removeEventListener(ev, off));
     const t = aim();
-    if (mine && Math.abs(box.scrollTop - t) > 2) box.scrollTo({ top: t, behavior: calm ? 'auto' : 'smooth' });
+    if (mine && box.scrollTop === y && Math.abs(y - t) > 2) box.scrollTo({ top: t, behavior: calm ? 'auto' : 'smooth' });
+    }, 120);
     }, 1100);
     };
     window.addEventListener('click', this.onAnchor, true);
@@ -499,10 +479,16 @@ export default {
     }, { threshold: 0.4 });
     this.ioLogos.observe(fl);
     } else if (fl) fl.classList.add('in');
-    const s = this.plSvg;
-    if (!s) return;
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) { const art = document.querySelector('.hero-art'); if (art && art.pauseAnimations) art.pauseAnimations(); }
+    this.calmMotion = reduce;
+    this.heroRest();
+    const hero = document.getElementById('top');
+    if (hero && 'IntersectionObserver' in window) {
+    this.ioHero = new IntersectionObserver((entries) => { this.heroAway = !entries[entries.length - 1].isIntersecting; this.heroRest(); });
+    this.ioHero.observe(hero);
+    }
+    const s = this.plStage;
+    if (!s) return;
     if (!reduce) this.floatGirl();
     if (!reduce) this.cloudsOut();
     if (reduce) { this.fly(-10); return; }
@@ -528,6 +514,7 @@ export default {
     if (this.tmGlide) cancelAnimationFrame(this.tmGlide);
     if (this.onAnchor) window.removeEventListener('click', this.onAnchor, true);
     if (this.io) this.io.disconnect();
+    if (this.ioHero) this.ioHero.disconnect();
     if (this.ioLogos) this.ioLogos.disconnect();
     if (this.onTeamResize) window.removeEventListener('resize', this.onTeamResize);
     if (this.onTeamMove) {
@@ -545,11 +532,19 @@ export default {
     }
   },
   methods: {
+    // the waves rest when nobody can see them: hero off screen, or the phone menu open over it
+    heroRest() {
+    const hero = document.getElementById('top');
+    const art = document.querySelector('.hero-art');
+    if (!hero || !art || !art.pauseAnimations) return;
+    const rest = !!(this.heroAway || this.menuOpen);
+    hero.classList.toggle('rest', rest);
+    // phones show the pre-drawn layers, so the live SVG never needs to run there
+    if (rest || this.calmMotion || window.innerWidth <= 767) art.pauseAnimations(); else art.unpauseAnimations();
+    },
     fly(at) {
-    const s = this.plSvg;
-    if (!s) return;
-    s.querySelectorAll('.ev-pl-anim').forEach((a) => { try { a.beginElementAt(at); } catch (e) {} });
-    if (at >= 0) s.querySelectorAll('.ev-pl-bob').forEach((a) => { try { a.beginElementAt(at + 3.4); } catch (e) {} });
+    const s = this.plStage;
+    if (s) s.classList.add(at < 0 ? 'done' : 'go');
     },
     floatGirl() {
     const girl = this.girlBox;
@@ -866,6 +861,8 @@ export default {
     hdr.classList.toggle('menu-open', open);
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    this.menuOpen = open;
+    this.heroRest();
     },
     toggleMenu() {
     const hdr = document.querySelector('.ev header');

@@ -44,7 +44,8 @@ and add these as encrypted environment variables:
 
 - Header: slims down and turns the three links into thin Lucide icons when scrolling down, and
   brings the words back on scroll up. On phones the menu button opens a drop-down menu.
-- Hero: the waves ripple and sway, the fish swim (inline SVG animation).
+- Hero: the waves ripple and sway, the fish swim (inline SVG animation). Phones show pre-drawn
+  layers that sway instead, because iPhone Safari struggles with animated SVG blurs.
 - What we do: the plane flies in along its trail the first time it scrolls into view.
 - Our group: logo-first cards; the details panel slides up on hover or keyboard focus
   (shown open on touch screens). The balloon girl floats up as you scroll.

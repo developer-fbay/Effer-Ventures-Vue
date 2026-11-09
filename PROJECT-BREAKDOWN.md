@@ -51,7 +51,7 @@ nuxt.config.ts              head tags, font, runtime config, Cloudflare preset
   - `team`: the team list (name, past, present, photo, crop position, link).
   - `teamDots`: one dot per carousel position.
 - **`mounted()`**: sets everything up in one place.
-  - Grabs the refs: `plSvg` (the plane), `girlBox`, `whySec` (the Join us section) and `teamTrack`.
+  - Grabs the refs: `plStage` (the plane), `girlBox`, `whySec` (the Join us section) and `teamTrack`.
   - Adds the scroll, resize, click and keyboard listeners.
   - Starts the IntersectionObservers and the carousel auto-slide.
 - **`beforeUnmount()`**: removes every listener and observer that `mounted()` added.
@@ -117,6 +117,7 @@ revisited.
   - The bar's `height` goes from 88px to 66px while its `margin-bottom` grows by the same 22px.
     The total space it takes never changes, so the page below does not jump.
   - The logo scales to 84%.
+- **Phones** (≤767px) skip the shrink: the bar stays 66px, so scrolling never changes the layout.
 - **Mobile menu** (≤767px):
   - The menu button calls `toggleMenu()` → `setMenu(open)`. That toggles `header.menu-open` and
     updates `aria-expanded` and `aria-label`.
@@ -135,12 +136,19 @@ revisited.
   - `#ev-fsh`: the fish drop shadow.
   - `#ev-soft-line`: a blur on the lines along the fish backs.
 - How the waves and fish move: section 4.
+- **Phones** (767px and under) don't run this SVG, because Safari redraws animated SVG blurs very
+  slowly. They show `.hero-lite`: seven images in `public/images/hero/` (four waves, two fish
+  groups and the lead fish), rendered once from the SVG's first frame, each moved only with CSS
+  `transform`. They are CSS backgrounds in the phone media query, so desktops never download them.
+- `heroRest()` pauses the waves when the hero is off screen or the phone menu is open.
 
 ### What we do (`#what`)
 
 - Two columns: the plane illustration on the left, the heading and paragraph on the right.
-- The illustration is an SVG holding the scene image, the plane image and a mask. It sits against
-  the left edge and on the bottom of the section (no bottom padding), touching Our group below.
+- The illustration is `.pl-stage`: the scene image, a soft white panel that hides it until the
+  plane has passed (`.pl-wipe`) and the plane image (`plane-shadow.webp`, which is `plane.png` with
+  its shadow built in). It sits against the left edge and on the bottom of the section (no bottom
+  padding), touching Our group below.
 - On phones the text comes first and the picture second, at 80% width.
 - The plane fly-in: section 4.
 
@@ -306,14 +314,17 @@ Each element gets its own `animation-delay` and `animation-duration` so nothing 
   - Cycles are 12–16s, with `calcMode="linear"` and `repeatCount="indefinite"`.
   - This runs on top of `ev-sway`.
 - **Plane fly-in** (`fly()`):
-  1. An `<animateMotion>` moves the plane along a curved path from bottom-left to its final spot
-     (`rotate="auto"`, so it banks into the curve), over 3.4s.
-  2. A mask paints the scene in behind it. The mask is a thick, heavily blurred stroke along the
-     same path, revealed with `stroke-dashoffset` from 1 to 0. That leaves the "trail".
-  3. After landing, a small `animateTransform` keeps the plane bobbing.
+  1. CSS keyframes (`ev-pl-fly`) move the plane along a curved path from bottom-left to its final
+     spot, banking into the curve, over 3.4s. They are that path and easing sampled every 2.5%.
+  2. A soft-edged white panel (`ev-pl-wipe`) moves with it at 82% opacity, so the scene ahead of
+     the plane looks faded and the scene behind it shows in full. That leaves the "trail". It
+     relies on the section background being white.
+  3. After landing, a small CSS animation (`ev-pl-bob`) keeps the plane bobbing.
 
-  All of these have `begin="indefinite"`. JS starts them with `beginElementAt(0)` when an
-  IntersectionObserver sees the plane (once, with a 20% bottom margin so it starts slightly late).
+  Only `transform` and `opacity` change, so phones can run it on the GPU; the old version redrew a
+  live-blurred SVG mask every frame. `fly()` adds `.go` to the stage when an IntersectionObserver
+  sees it (once, with a 20% bottom margin so it starts slightly late), or `.done` for reduced
+  motion.
 
 ### c) Scroll-driven effects (JS, `requestAnimationFrame`)
 
