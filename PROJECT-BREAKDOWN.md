@@ -45,7 +45,8 @@ nuxt.config.ts              head tags, font, runtime config, Cloudflare preset
 
 `app.vue` is a single Options API component:
 
-- **`data()`**: `tmDots`, `tmIdx` (team carousel dots) and `contactSending` (form button state).
+- **`data()`**: `tmLoop` (team carousel copies added), `tmIdx` (current team dot) and
+  `contactSending` (form button state).
 - **`computed`**:
   - `team`: the team list (name, past, present, photo, crop position, link).
   - `teamDots`: one dot per carousel position.
@@ -197,12 +198,22 @@ revisited.
     (`.tm-controls`).
 - **Movement**: `teamGlide(left, duration)` animates `scrollLeft` with an ease-in-out curve.
   Snap is switched off during the glide and restored after it.
-  - `teamMove(±1)` (arrows) steps one card, 0.9s, and wraps from the end back to the start
-    (1.4s).
-  - `teamGo(i)` (dots) jumps to position `i`.
-- **Dots**: `measureTeam()` works out how many positions exist (`cards − visible + 1`) and the
-  current one, then sets `tmDots` and `tmIdx`. It runs on scroll (throttled with
-  `requestAnimationFrame`) and on resize.
+  - `teamMove(±1)` (arrows) steps one card in 0.9s.
+  - Taps stack up: a tap during a glide counts on from where the glide is heading (`tmTo`) and
+    finishes in 0.5s with an ease-out, so triple-tapping moves three cards.
+  - `teamGo(i)` (dots) goes to person `i`, the short way round the loop.
+- **Endless loop**: `teamCards` renders the team three times. The middle run is the real one; the
+  outer two are copies (`aria-hidden`, links out of the tab order) added after load, so the page
+  HTML only carries 13 cards.
+  - The view always stays in the middle run. `teamWrap(x)` maps any position to the same view
+    there, and the runs are identical, so the jump can't be seen.
+  - Arrows, dots, mouse drag and momentum wrap on every frame. Native touch swipes and keyboard
+    scrolling can't be moved mid-scroll without killing their momentum, so `teamRecentre()` wraps
+    them 140ms after they stop, or the moment a new finger lands, and never during a touch or
+    mouse drag.
+- **Dots**: one per person. `measureTeam()` measures the card step, the first card's offset and the
+  width of one run, and sets `tmIdx`. It runs on scroll (throttled with `requestAnimationFrame`)
+  and on resize.
 - **Drag**: `setupTeamDrag()`. With a mouse you can drag the track. On release it keeps gliding
   with momentum (velocity × 0.94 each frame), then settles on the nearest card. A drag never
   triggers a click on a LinkedIn link. Touch screens use native swipe.

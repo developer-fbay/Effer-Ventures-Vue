@@ -262,8 +262,8 @@
 <h2 style="font-size: clamp(34px, 3.2vw, 52px); font-weight: 900; line-height: 1.05; letter-spacing: -1.5px; color: #00123D;">Our team</h2>
 <div class="tm-row" style="display: flex; align-items: center; gap: 16px;">
 <div ref="teamTrack" class="tm-track" @scroll.passive="onTeamScroll" role="region" aria-label="Team members" tabindex="0" style="flex: 1 1 auto; min-width: 0; display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 6px 2px 14px;">
-<template v-for="(m, i) in team" :key="i">
-<article class="tm-card" style="scroll-snap-align: start; background: #FFFFFF; border: 1px solid #E6E6EA; border-radius: 12px 0; padding: 20px 20px 28px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 6px 18px rgba(0,18,61,0.06);">
+<template v-for="m in teamCards" :key="m.key">
+<article class="tm-card" :aria-hidden="m.copy ? 'true' : null" style="scroll-snap-align: start; background: #FFFFFF; border: 1px solid #E6E6EA; border-radius: 12px 0; padding: 20px 20px 28px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 6px 18px rgba(0,18,61,0.06);">
 <div class="tm-photo" style="aspect-ratio: 4 / 5; max-height: max(160px, calc(100svh - 470px)); border-radius: 12px 0; overflow: hidden; background: linear-gradient(to right top, #FF66CC, #EC4BD4, #D232E0, #AC21EF, #7121FF); display: flex; align-items: center; justify-content: center; margin-bottom: 6px;">
 <template v-if="m.photo"><img :src="m.photo" :alt="m.name" style="width: 100%; height: 100%; object-fit: cover; display: block;" :style="{ objectPosition: m.pos }"></template>
 <template v-if="m.noPhoto"><svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path></svg></template>
@@ -271,7 +271,7 @@
 <h3 style="font-size: 28px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; color: #00123D;">{{ m.name }}</h3>
 <p style="font-size: 17px; color: #58595B;"><span style="font-weight: 900; color: #FF66CC;">Past:</span> {{ m.past }}</p>
 <p style="font-size: 17px; color: #58595B;"><span style="font-weight: 900; color: #FF66CC;">Present:</span> {{ m.present }}</p>
-<a :href="m.link" style="margin-top: 4px; font-size: 13px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #00123D; text-decoration: none;">LinkedIn →</a>
+<a :href="m.link" :tabindex="m.copy ? -1 : null" style="margin-top: 4px; font-size: 13px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #00123D; text-decoration: none;">LinkedIn →</a>
 </article>
 </template>
 </div>
@@ -387,7 +387,7 @@ import { House, Info, Mail } from '@lucide/vue'
 export default {
   components: { House, Info, Mail },
   data() {
-    return { tmDots: 5, tmIdx: 0, contactSending: false }
+    return { tmLoop: false, tmIdx: 0, contactSending: false }
   },
   computed: {
     team() {
@@ -408,8 +408,13 @@ export default {
       ];
       return team
     },
+    // three runs of the team so the carousel can loop; the outer two are copies, added after load
+    teamCards() {
+      const run = (copy, at) => this.team.map((m, i) => ({ ...m, copy, key: at + i }));
+      return this.tmLoop ? [...run(true, 'a'), ...run(false, 'r'), ...run(true, 'c')] : run(false, 'r');
+    },
     teamDots() {
-      return Array.from({ length: this.tmDots }, (_, i) => ({
+      return Array.from({ length: this.team.length }, (_, i) => ({
         label: 'Go to team slide ' + (i + 1),
         w: i === this.tmIdx ? '28px' : '10px',
         bg: i === this.tmIdx ? '#FF66CC' : '#B9BBC2',
@@ -475,6 +480,12 @@ export default {
     this.onTeamResize = () => this.measureTeam();
     window.addEventListener('resize', this.onTeamResize, { passive: true });
     this.measureTeam();
+    // the copies go in after load, so the page HTML stays light; start on the middle run, before anything paints
+    this.tmLoop = true;
+    this.$nextTick(() => {
+    this.measureTeam();
+    if (this.teamTrack) this.teamTrack.scrollTo({ left: this.tmBase + this.tmW, behavior: 'instant' });
+    });
     this.setupTeamDrag();
     this.startTeamAuto();
     // footer group logos slide in when the footer comes into view, and again on the next pass down
@@ -512,6 +523,7 @@ export default {
     if (this.snapTarget) this.snapTarget.removeEventListener('scroll', this.onSnapScroll);
     if (this.onSnapStop) ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((ev) => window.removeEventListener(ev, this.onSnapStop));
     if (this.tmAuto) clearInterval(this.tmAuto);
+    clearTimeout(this.tmIdle);
     if (this.ioTeam) this.ioTeam.disconnect();
     if (this.tmGlide) cancelAnimationFrame(this.tmGlide);
     if (this.onAnchor) window.removeEventListener('click', this.onAnchor, true);
@@ -598,36 +610,52 @@ export default {
     window.addEventListener('resize', this.onCloudScroll, { passive: true });
     update();
     },
-    teamStep() {
-    const t = this.teamTrack;
-    const card = t && t.querySelector('.tm-card');
-    return card ? card.offsetWidth + 24 : 300;
-    },
     measureTeam() {
     const t = this.teamTrack;
     if (!t) return;
-    const step = this.teamStep();
-    const n = t.querySelectorAll('.tm-card').length;
-    const visible = Math.max(1, Math.round(t.clientWidth / step));
-    const pages = Math.max(1, n - visible + 1);
-    const idx = Math.min(pages - 1, Math.round(t.scrollLeft / step));
-    if (this.tmDots !== pages) this.tmDots = pages;
+    const c = t.querySelectorAll('.tm-card');
+    if (c.length < 2) return;
+    const n = this.team.length;
+    const first = c[0].getBoundingClientRect().left;
+    this.tmStep = c[1].getBoundingClientRect().left - first;
+    this.tmBase = first - t.getBoundingClientRect().left + t.scrollLeft;
+    this.tmW = this.tmStep * n;
+    const idx = ((Math.round((t.scrollLeft - this.tmBase) / this.tmStep) % n) + n) % n;
     if (this.tmIdx !== idx) this.tmIdx = idx;
     },
-    teamGlide(left, dur) {
+    // maps any position on to the same view inside the middle run; the runs are identical, so the jump can't be seen
+    teamWrap(x) {
+    if (!this.tmLoop || !this.tmW) return x;
+    const lo = this.tmW + this.tmBase - this.tmStep / 2;
+    return lo + (((x - lo) % this.tmW) + this.tmW) % this.tmW;
+    },
+    // native swipes and arrow keys can't be wrapped mid-scroll, so bring them back once they stop or a finger lands
+    teamRecentre() {
+    const t = this.teamTrack;
+    if (!t || this.tmGlide || this.tmHeld) return;
+    const to = this.teamWrap(t.scrollLeft);
+    if (Math.abs(to - t.scrollLeft) > 1) t.scrollTo({ left: to, behavior: 'instant' });
+    },
+    teamGlide(left, dur, quick) {
     const t = this.teamTrack;
     if (!t) return;
+    // positions in a glide keep counting past the end of a run; teamWrap maps them back on to the cards
+    const from = this.tmGlide ? this.tmAt : t.scrollLeft;
     if (this.tmGlide) cancelAnimationFrame(this.tmGlide);
-    const from = t.scrollLeft;
+    this.tmGlide = 0;
     const dist = left - from;
-    if (Math.abs(dist) < 1) return;
+    if (Math.abs(dist) < 1) { t.style.scrollSnapType = 'x mandatory'; t.style.scrollBehavior = 'smooth'; return; }
+    this.tmTo = left;
+    this.tmAt = from;
     const t0 = performance.now();
-    const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    // a tap mid-glide has to move at once, so it only eases out; a glide from rest eases in and out
+    const ease = quick ? (x) => 1 - Math.pow(1 - x, 3) : (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
     t.style.scrollSnapType = 'none';
     t.style.scrollBehavior = 'auto';
     const frame = (now) => {
     const k = Math.min(1, (now - t0) / dur);
-    t.scrollLeft = from + dist * ease(k);
+    this.tmAt = from + dist * ease(k);
+    t.scrollLeft = this.teamWrap(this.tmAt);
     if (k < 1) { this.tmGlide = requestAnimationFrame(frame); return; }
     this.tmGlide = 0;
     t.style.scrollSnapType = 'x mandatory';
@@ -638,15 +666,21 @@ export default {
     teamMove(dir) {
     const t = this.teamTrack;
     if (!t) return;
-    const step = this.teamStep();
-    const max = t.scrollWidth - t.clientWidth;
-    if (dir > 0 && t.scrollLeft >= max - 4) this.teamGlide(0, 1400);
-    else if (dir < 0 && t.scrollLeft <= 4) this.teamGlide(max, 1400);
-    else this.teamGlide(Math.max(0, Math.min(max, Math.round(t.scrollLeft / step) * step + dir * step)), 900);
+    // a tap during a glide counts on from where the glide is heading, so quick taps stack up and speed it along
+    const busy = !!this.tmGlide;
+    const k = Math.round(((busy ? this.tmTo : t.scrollLeft) - this.tmBase) / this.tmStep) + dir;
+    this.teamGlide(this.tmBase + k * this.tmStep, busy ? 500 : 900, busy);
     },
     teamGo(i) {
     const t = this.teamTrack;
-    if (t) this.teamGlide(Math.min(t.scrollWidth - t.clientWidth, i * this.teamStep()), 900);
+    if (!t) return;
+    // the dots take the short way round the loop
+    const n = this.team.length;
+    const busy = !!this.tmGlide;
+    const at = Math.round(((busy ? this.tmTo : t.scrollLeft) - this.tmBase) / this.tmStep);
+    let d = (((i - at) % n) + n) % n;
+    if (d > n / 2) d -= n;
+    this.teamGlide(this.tmBase + (at + d) * this.tmStep, 900, busy);
     },
     setupTeamDrag() {
     const t = this.teamTrack;
@@ -655,24 +689,21 @@ export default {
     const freeze = () => { t.style.scrollSnapType = 'none'; t.style.scrollBehavior = 'auto'; };
     const release = () => { t.style.scrollSnapType = 'x mandatory'; t.style.scrollBehavior = 'smooth'; };
     const settle = () => {
-    const step = this.teamStep();
-    const max = t.scrollWidth - t.clientWidth;
-    const target = Math.max(0, Math.min(max, Math.round(t.scrollLeft / step) * step));
+    const target = this.tmBase + Math.round((t.scrollLeft - this.tmBase) / this.tmStep) * this.tmStep;
     release();
     t.scrollTo({ left: target, behavior: 'smooth' });
     };
     const glide = () => {
     vel *= 0.94;
-    t.scrollLeft -= vel * 16;
-    const max = t.scrollWidth - t.clientWidth;
-    if (Math.abs(vel) < 0.08 || t.scrollLeft <= 0 || t.scrollLeft >= max) { raf = 0; settle(); return; }
+    t.scrollLeft = this.teamWrap(t.scrollLeft - vel * 16);
+    if (Math.abs(vel) < 0.08) { raf = 0; settle(); return; }
     raf = requestAnimationFrame(glide);
     };
     this.onTeamDown = (e) => {
     if (e.pointerType !== 'mouse' || e.button !== 0) return;
     if (raf) { cancelAnimationFrame(raf); raf = 0; }
     if (this.tmGlide) { cancelAnimationFrame(this.tmGlide); this.tmGlide = 0; }
-    down = true; this.tmMoved = false;
+    down = true; this.tmHeld = true; this.tmMoved = false;
     startX = lastX = e.clientX; startLeft = t.scrollLeft; lastT = performance.now(); vel = 0;
     freeze();
     t.classList.add('dragging');
@@ -681,7 +712,7 @@ export default {
     if (!down) return;
     const dx = e.clientX - startX;
     if (Math.abs(dx) > 5) this.tmMoved = true;
-    t.scrollLeft = startLeft - dx;
+    t.scrollLeft = this.teamWrap(startLeft - dx);
     const now = performance.now(), dt = now - lastT;
     if (dt > 0) vel = 0.8 * ((e.clientX - lastX) / dt) + 0.2 * vel;
     lastX = e.clientX; lastT = now;
@@ -689,7 +720,7 @@ export default {
     };
     this.onTeamUp = () => {
     if (!down) return;
-    down = false;
+    down = false; this.tmHeld = false;
     t.classList.remove('dragging');
     if (performance.now() - lastT > 80) vel = 0;
     if (Math.abs(vel) > 0.1) raf = requestAnimationFrame(glide);
@@ -697,6 +728,8 @@ export default {
     };
     this.onTeamClick = (e) => { if (this.tmMoved) { e.preventDefault(); e.stopPropagation(); this.tmMoved = false; } };
     t.addEventListener('pointerdown', this.onTeamDown);
+    t.addEventListener('touchstart', () => { this.teamRecentre(); this.tmHeld = true; }, { passive: true });
+    ['touchend', 'touchcancel'].forEach((ev) => t.addEventListener(ev, () => { this.tmHeld = false; this.onTeamScroll(); }, { passive: true }));
     window.addEventListener('pointermove', this.onTeamMove);
     window.addEventListener('pointerup', this.onTeamUp);
     window.addEventListener('pointercancel', this.onTeamUp);
@@ -710,7 +743,7 @@ export default {
     const row = t.closest('.tm-row') || t;
     let hold = false;
     let seen = false;
-    const tick = () => { if (seen && !hold && !document.hidden) this.teamMove(1); };
+    const tick = () => { if (seen && !hold && !document.hidden && !this.tmGlide) this.teamMove(1); };
     // only run while the carousel is on screen, and give people a full 5s on the first card when they arrive
     if ('IntersectionObserver' in window) {
     this.ioTeam = new IntersectionObserver((entries) => {
@@ -882,6 +915,8 @@ export default {
     teamPrev() { this.teamMove(-1) },
     teamNext() { this.teamMove(1) },
     onTeamScroll() {
+      clearTimeout(this.tmIdle)
+      this.tmIdle = setTimeout(() => this.teamRecentre(), 140)
       if (this.tmQueued) return
       this.tmQueued = true
       requestAnimationFrame(() => { this.tmQueued = false; this.measureTeam() })

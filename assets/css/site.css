@@ -73,7 +73,7 @@ html{scroll-padding-top:88px}
 .chip-tel:hover{background:#FF66CC;color:#FFFFFF}
 .tm-card{flex:0 0 calc((100% - 72px) / 4);transition:transform .2s ease,box-shadow .2s ease}
 .tm-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,18,61,.12)}
-.tm-arrow{transition:background-color .45s ease}
+.tm-arrow{transition:background-color .45s ease;touch-action:manipulation}
 .tm-arrow:hover{background:#FF66CC !important}
 .tm-track{scrollbar-width:none;cursor:grab;user-select:none;-webkit-user-select:none}
 .tm-track.dragging{cursor:grabbing}
