@@ -237,7 +237,7 @@
 <div class="wrap" style="display: flex; flex-direction: column; gap: 32px; width: 100%;">
 <h2 style="font-size: clamp(34px, 3.2vw, 52px); font-weight: 900; line-height: 1.05; letter-spacing: -1.5px; color: #00123D;">Our team</h2>
 <div class="tm-row" style="display: flex; align-items: center; gap: 16px;">
-<div ref="teamTrack" class="tm-track" @scroll.passive="onTeamScroll" role="region" aria-label="Team members" tabindex="0" style="flex: 1 1 auto; min-width: 0; display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 6px 2px 14px;">
+<div ref="teamTrack" class="tm-track" @scroll.passive="onTeamScroll" role="region" aria-label="Team members" tabindex="0" style="flex: 1 1 auto; min-width: 0; display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 6px 2px 14px;">
 <template v-for="m in teamCards" :key="m.key">
 <article class="tm-card" :aria-hidden="m.copy ? 'true' : null" style="scroll-snap-align: start; background: #FFFFFF; border: 1px solid #E6E6EA; border-radius: 12px 0; padding: 20px 20px 28px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 6px 18px rgba(0,18,61,0.06);">
 <div class="tm-photo" style="aspect-ratio: 4 / 5; max-height: max(160px, calc(100svh - 470px)); border-radius: 12px 0; overflow: hidden; background: linear-gradient(to right top, #FF66CC, #EC4BD4, #D232E0, #AC21EF, #7121FF); display: flex; align-items: center; justify-content: center; margin-bottom: 6px;">
