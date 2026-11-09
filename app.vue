@@ -6,23 +6,19 @@
 <a href="#top" aria-label="Effer Ventures, back to top" style="display: flex;"><img src="/images/logo-white.png" alt="Effer Ventures" style="width: 155px; height: auto; display: block;"></a>
 <div style="display: flex; align-items: center; gap: 32px;">
 <nav class="nav" aria-label="Main" style="display: flex; gap: 28px; font-weight: 900; font-size: 16px;">
-<a href="#what" style="color: #FF66CC;">What we do</a>
-<a href="#portfolio">Our group</a>
-<a href="#team">Our team</a>
-<a href="#contact">Contact</a>
+<a href="#top" style="color: #FF66CC;"><House class="nav-ico" :size="22" :stroke-width="1.25" aria-hidden="true" /><span class="nav-txt">Home</span></a>
+<a href="#what"><Info class="nav-ico" :size="22" :stroke-width="1.25" aria-hidden="true" /><span class="nav-txt">About</span></a>
+<a href="#contact"><Mail class="nav-ico" :size="22" :stroke-width="1.25" aria-hidden="true" /><span class="nav-txt">Contact</span></a>
 </nav>
-<a class="btn hdr-btn" href="#contact">Join us</a>
 <button class="menu-btn" type="button" aria-label="Open menu" aria-controls="m-menu" aria-expanded="false" @click="toggleMenu" style="background: transparent; border: 1px solid rgba(255,255,255,0.4); border-radius: 12px 0; width: 48px; height: 44px; align-items: center; justify-content: center; color: #FFFFFF;">
 <svg class="m-bars" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg><svg class="m-x" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
 </button>
 </div>
 </div>
 <nav id="m-menu" class="m-menu" aria-label="Mobile">
-<a href="#what">What we do<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
-<a href="#portfolio">Our group<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
-<a href="#team">Our team<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a href="#top">Home<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a href="#what">About<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
 <a href="#contact">Contact<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
-<a class="btn" href="#contact">Join us</a>
 </nav>
 </header>
 
@@ -383,10 +379,13 @@
 </template>
 
 <script>
+import { House, Info, Mail } from '@lucide/vue'
+
 // Page behaviour: hero waves, plane fly-in, floating balloon girl, Join us clouds and sky,
 // team carousel (arrows, dots, drag, auto-slide), shrinking header, mobile menu,
 // smooth in-page links, footer logo slide-in and the contact thank-you popup.
 export default {
+  components: { House, Info, Mail },
   data() {
     return { tmDots: 5, tmIdx: 0, contactSending: false }
   },
@@ -394,17 +393,18 @@ export default {
     team() {
       const team = [
       { name: 'Alex Fenton', past: 'Multi-exited founder and entrepreneur', present: 'Head cheerleader', photo: '/images/team/alex.png', pos: '50% 100%', noPhoto: false, link: 'https://www.linkedin.com/' },
-      { name: 'Charlotte', past: '[to come]', present: 'Group Head of Operations', photo: '/images/team/charlotte.png', pos: '50% 25%', noPhoto: false, link: '#team' },
-      { name: 'Mbali', past: '[to come]', present: 'Founders Associate', photo: '/images/team/mbali.png', pos: '50% 25%', noPhoto: false, link: '#team' },
-      { name: 'Juliet', past: '[to come]', present: '[to come]', photo: null, noPhoto: true, link: '#team' },
-      { name: 'Tayla-Jade', past: '[to come]', present: 'People & Culture Manager', photo: '/images/team/tayla-jade.png', pos: '50% 50%', noPhoto: false, link: '#team' },
-      { name: 'Lindyn', past: '[to come]', present: 'People & Culture Administrator', photo: '/images/team/lindyn.png', pos: '50% 25%', noPhoto: false, link: '#team' },
-      { name: 'Lauren', past: '[to come]', present: 'GTM Engineer', photo: '/images/team/lauren.png', pos: '50% 20%', noPhoto: false, link: '#team' },
-      { name: 'Michael', past: '[to come]', present: 'Digital Marketing Manager', photo: '/images/team/michael.png', pos: '50% 10%', noPhoto: false, link: '#team' },
-      { name: 'FC', past: '[to come]', present: 'Group Finance Manager', photo: '/images/team/fc.png', pos: '50% 0%', noPhoto: false, link: '#team' },
-      { name: 'Suvaal', past: '[to come]', present: 'Senior Financial Accountant', photo: null, noPhoto: true, link: '#team' },
-      { name: 'Austin', past: '[to come]', present: 'GTM Engineer', photo: '/images/team/austin.png', pos: '68% 50%', noPhoto: false, link: '#team' },
-      { name: 'Nicayla', past: '[to come]', present: 'Social Media Content Specialist', photo: '/images/team/nicayla.png', pos: '50% 20%', noPhoto: false, link: '#team' }
+      { name: 'Charlotte', past: 'M&A Analyst', present: 'Group Head of Operations', photo: '/images/team/charlotte.png', pos: '50% 25%', noPhoto: false, link: 'https://www.linkedin.com/in/charlottejames97/' },
+      { name: 'Mbali', past: 'CRM & Marketing', present: 'Founders Associate', photo: '/images/team/mbali.png', pos: '50% 25%', noPhoto: false, link: 'https://www.linkedin.com/in/mbali-sibisi-0435461b5/' },
+      { name: 'Juliet', past: 'Marketing Consultant', present: 'Growth and Marketing Manager', photo: '/images/team/juliet.png', pos: '50% 0%', noPhoto: false, link: 'https://www.linkedin.com/in/julietmey/' },
+      { name: 'Tayla-Jade', past: 'HR Officer', present: 'People & Culture Manager', photo: '/images/team/tayla-jade.png', pos: '50% 50%', noPhoto: false, link: 'https://www.linkedin.com/in/tayla-jade-teixeira-548177176/' },
+      { name: 'Lindyn', past: 'Recruitment Consultant', present: 'People & Culture Administrator', photo: '/images/team/lindyn.png', pos: '50% 25%', noPhoto: false, link: 'https://www.linkedin.com/in/lindyn-ross-7aaba4252/' },
+      { name: 'Lauren', past: 'GTM Engineer', present: 'GTM Manager', photo: '/images/team/lauren.png', pos: '50% 20%', noPhoto: false, link: 'https://www.linkedin.com/in/lauren-gracie-989664165/' },
+      { name: 'Michael', past: 'Account Manager', present: 'Digital Marketing Manager', photo: '/images/team/michael.png', pos: '50% 10%', noPhoto: false, link: 'https://www.linkedin.com/in/michael-dawson-51439a70/' },
+      { name: 'FC', past: 'Finance & Operations Manager', present: 'Group Finance Manager', photo: '/images/team/fc.png', pos: '50% 0%', noPhoto: false, link: 'https://www.linkedin.com/in/fc-schlebusch-b66156151/' },
+      { name: 'Suvaal', past: 'Audit Senior', present: 'Senior Financial Accountant', photo: '/images/team/suvaal.png', pos: '50% 10%', noPhoto: false, link: 'https://www.linkedin.com/in/suvaal-ramdutt-42289b27a/' },
+      { name: 'Austin', past: 'GTM Engineer', present: 'GTM Technical Operations Engineer', photo: '/images/team/austin.png', pos: '68% 50%', noPhoto: false, link: 'https://www.linkedin.com/in/austin-fernandez-992338284/' },
+      { name: 'Nicayla', past: 'Social Media & Content Intern', present: 'Social Media Content Specialist', photo: '/images/team/nicayla.png', pos: '50% 20%', noPhoto: false, link: 'https://www.linkedin.com/in/nicayla-de-villiers-588618228/' },
+      { name: 'Chulu', past: 'Junior Marketing Coordinator', present: 'Operations Executive', photo: '/images/team/chulu.png', pos: '50% 20%', noPhoto: false, link: 'https://www.linkedin.com/in/chulumanconxibi/' }
       ];
       return team
     },
@@ -449,12 +449,25 @@ export default {
     const root = document.scrollingElement || document.documentElement;
     box = box || root;
     const hdr = document.querySelector('.ev header');
-    const base = box === root ? 0 : box.getBoundingClientRect().top;
-    const rel = el.getBoundingClientRect().top - base;
+    // land on the section's content (24px of its top padding stays) just under the bar's final height:
     // heading down the page the bar slims to 66px, heading up it opens to its full 88px
-    const barH = hdr ? (rel > hdr.offsetHeight ? 66 : hdr.offsetHeight) : 0;
-    const top = rel + box.scrollTop - barH;
-    box.scrollTo({ top: Math.max(0, top), behavior: calm ? 'auto' : 'smooth' });
+    const spot = () => {
+    const base = box === root ? 0 : box.getBoundingClientRect().top;
+    const pad = el.id === 'top' ? 0 : Math.max(0, parseFloat(getComputedStyle(el).paddingTop) - 24);
+    return el.getBoundingClientRect().top - base + box.scrollTop + pad;
+    };
+    const down = spot() - 66 > box.scrollTop;
+    const aim = () => { const to = spot(); return Math.max(0, Math.round(to - (!hdr ? 0 : down && to - 66 >= 120 ? 66 : 88))); };
+    box.scrollTo({ top: aim(), behavior: calm ? 'auto' : 'smooth' });
+    // the page may still be loading or the bar resizing: check the aim once the glide ends, unless the visitor took over
+    let mine = true;
+    const off = () => { mine = false; };
+    ['wheel', 'touchstart', 'keydown'].forEach((ev) => window.addEventListener(ev, off, { once: true, passive: true }));
+    setTimeout(() => {
+    ['wheel', 'touchstart', 'keydown'].forEach((ev) => window.removeEventListener(ev, off));
+    const t = aim();
+    if (mine && Math.abs(box.scrollTop - t) > 2) box.scrollTo({ top: t, behavior: calm ? 'auto' : 'smooth' });
+    }, 1100);
     };
     window.addEventListener('click', this.onAnchor, true);
     this.setupNavShrink();
@@ -780,7 +793,7 @@ export default {
     const root = document.scrollingElement || document.documentElement;
     box = box || root;
     let last = box.scrollTop, queued = false;
-    // scrolling down tucks the links away (logo and Join us stay); scrolling up brings them back
+    // scrolling down slims the bar and turns the links into icons; scrolling up brings the words back
     const update = () => {
     queued = false;
     const y = box.scrollTop;
