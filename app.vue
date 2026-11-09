@@ -247,7 +247,7 @@
 <h3 style="font-size: 28px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; color: #00123D;">{{ m.name }}</h3>
 <p style="font-size: 17px; color: #58595B;"><span style="font-weight: 900; color: #FF66CC;">Past:</span> {{ m.past }}</p>
 <p style="font-size: 17px; color: #58595B;"><span style="font-weight: 900; color: #FF66CC;">Present:</span> {{ m.present }}</p>
-<a :href="m.link" :tabindex="m.copy ? -1 : null" style="margin-top: 4px; font-size: 13px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #00123D; text-decoration: none;">LinkedIn →</a>
+<a :href="m.link" :tabindex="m.copy ? -1 : null" style="margin-top: auto; padding-top: 4px; font-size: 13px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #00123D; text-decoration: none;">LinkedIn →</a>
 </article>
 </template>
 </div>
