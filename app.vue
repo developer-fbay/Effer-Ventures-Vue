@@ -297,7 +297,7 @@
 </div>
 </div>
 <form action="/api/contact" method="post" @submit.prevent="submitContact" style="display: flex; flex-direction: column; gap: 20px;">
-<p style="font-size: clamp(19px, 1.45vw, 23px); line-height: 1.7; color: #58595B;">Get in touch with us on <a class="chip chip-tel" href="tel:+442039300544">+44 (0) 20 3930 0544</a>, or fill in the form below.</p>
+<p style="font-size: clamp(19px, 1.45vw, 23px); line-height: 1.7; color: #58595B;">Get in touch with us at <a class="chip chip-mail" href="mailto:enquiries@effer-ventures.com">enquiries@effer-ventures.com</a>, or fill in the form below.</p>
 <label class="hp" aria-hidden="true">Leave this empty<input type="text" name="ev_hp" tabindex="-1" autocomplete="off"></label>
 <div class="fields">
 <label class="field"><span style="font-size: 15px; color: #00123D; font-weight: 400;">First name<span aria-hidden="true" style="color: #FF66CC;"> *</span></span><input type="text" required name="first_name" autocomplete="given-name"></label>
@@ -344,9 +344,8 @@
 </div>
 </div>
 <div class="foot-txt" style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end; text-align: right; font-size: 14px; font-weight: 400;">
-<p><a href="mailto:enquiries@effer-ventures.com" style="color: #FFFFFF;">enquiries@effer-ventures.com</a> · <span style="white-space: nowrap;">+44 (0) 20 3930 0544</span></p>
+<p><a href="mailto:enquiries@effer-ventures.com" style="color: #FFFFFF;">enquiries@effer-ventures.com</a></p>
 <p style="max-width: 460px;">Effer Ventures Limited is registered in England and Wales. No. 13456241. Registered office at Evolution House, Iceni Court, Delft Way, Norwich, Norfolk, England, NR6 6BB.</p>
-<a href="#top" style="color: #FFFFFF;">Privacy policy</a>
 </div>
 </div>
 </footer>

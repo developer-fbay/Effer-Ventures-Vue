@@ -257,14 +257,14 @@ revisited.
 ### Contact (`#contact`)
 
 - Three columns: the head illustration, the London HQ and Cape Town addresses, and the form.
-- The phone number is a pink badge (`.chip.chip-tel`) and a `tel:` link.
+- The email address is a pink badge (`.chip.chip-mail`) and a `mailto:` link.
 - The form, its popups and the server route: section 5.
 - On tablet the head is hidden. On phones it shows smaller (220px tall) above the addresses.
 
 ### Footer
 
 - Pink-to-purple gradient, the white EV logo, white group logos (`.foot-logos`), contact details,
-  company registration line and privacy policy link.
+  company registration line.
 - The logos slide in when the footer comes into view. See section 4.
 
 ### Popups (thank-you and failed)

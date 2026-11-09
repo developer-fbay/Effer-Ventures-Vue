@@ -90,8 +90,8 @@ html{scroll-padding-top:88px}
 @media (hover:none){.card{height:auto;display:flex;flex-direction:column}.d-logo{position:relative;inset:auto;height:150px}.d-tag{position:static;display:block;padding:0 20px 18px}.d-info{position:relative;transform:none;margin-top:auto}.card:hover .d-logo,.card:focus-visible .d-logo{transform:none}}
 .chip{font-size:12px;font-weight:300;letter-spacing:2.5px;line-height:1.2;text-transform:uppercase;color:#C2188F;background:#FFF4FB;padding:7px 12px;border-radius:8px 0}
 .chip-out{color:#FFFFFF;background:#00123D}
-.chip-tel{display:inline-block;vertical-align:middle;font-size:14px;letter-spacing:2px;text-decoration:none;margin:0 2px;transition:background-color .45s ease,color .45s ease}
-.chip-tel:hover{background:#FF66CC;color:#FFFFFF}
+.chip-mail{display:inline-block;vertical-align:middle;font-size:14px;letter-spacing:1px;text-transform:none;text-decoration:none;margin:0 2px;transition:background-color .45s ease,color .45s ease}
+.chip-mail:hover{background:#FF66CC;color:#FFFFFF}
 .tm-card{flex:0 0 calc((100% - 72px) / 4);transition:transform .2s ease,box-shadow .2s ease}
 .tm-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(0,18,61,.12)}
 .tm-arrow{transition:background-color .45s ease;touch-action:manipulation}
