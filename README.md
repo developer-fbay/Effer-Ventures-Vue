@@ -42,8 +42,8 @@ and add these as encrypted environment variables:
 
 ## Behaviour
 
-- Header: slims down and tucks the section links away when scrolling down, comes back on
-  scroll up. On phones the menu button opens a drop-down menu.
+- Header: slims down and turns the three links into thin Lucide icons when scrolling down, and
+  brings the words back on scroll up. On phones the menu button opens a drop-down menu.
 - Hero: the waves ripple and sway, the fish swim (inline SVG animation).
 - What we do: the plane flies in along its trail the first time it scrolls into view.
 - Our group: logo-first cards; the details panel slides up on hover or keyboard focus
@@ -61,8 +61,8 @@ and add these as encrypted environment variables:
 
 - Contact form: add a Cloudflare rate-limiting rule on `/api/contact`; confirm with Codi where
   the n8n flow sends each message.
-- Team: photos for Juliet and Suvaal, and everyone's Past/Present lines (currently "[to come]");
-  real LinkedIn links.
+- Team: a sharper photo for Suvaal (the current one is very low resolution) and Alex's real
+  LinkedIn link.
 - Self-host Circular as WOFF2 (Figtree is a stand-in for now).
 - Split `app.vue` into section components, move copy and team data into data files.
 - SEO: Open Graph image, Organization schema, sitemap, robots.txt, and the WordPress 301 redirects.

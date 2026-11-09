@@ -16,6 +16,7 @@ the contact form reaches n8n. For running and deploying, see `README.md`.
 | Server | `server/api/contact.post.ts`, the only server code |
 | Hosting | Cloudflare Pages (`cloudflare_pages` Nitro preset). The home page is prerendered to static HTML; `/api/contact` runs as a Pages Function |
 | Font | Figtree from Google Fonts, standing in for Circular until it is self-hosted |
+| Icons | `@lucide/vue`, for the slim header's three icons (stroke width 1.25) |
 
 ### Where the page came from
 
@@ -85,9 +86,12 @@ change. This keeps Vue re-renders out of scroll handlers, so scrolling stays smo
 2. Works out which element is scrolling (normally the window).
 3. Glides there with `scrollTo({ behavior: 'smooth' })`.
 
-It subtracts the header height so the heading lands just below the bar. That's 66px when heading
-down (the bar will be slim) and 88px when heading up. Visitors with reduced motion get an instant
-jump.
+It lands on the section's content rather than its outer edge: it skips the section's top padding
+except 24px, so the first heading or picture sits 24px below the bar. It allows for the bar's final
+height: 66px when heading down (the bar will be slim) and 88px when heading up (`#top` always goes
+to the very top). About a second later it checks the aim once more and corrects it if the page was
+still loading or the bar was mid-resize, unless the visitor has scrolled, swiped or pressed a key
+in the meantime. Visitors with reduced motion get an instant jump.
 
 `setupSectionSnap()` is a custom "snap to section" helper. It's written but switched off in
 `mounted()` (commented out) after testing showed it felt glitchy. Leave it off unless that's
@@ -99,12 +103,16 @@ revisited.
 
 ### Header (`<header>`, mobile menu `#m-menu`)
 
-- **Sticky bar**: navy with a 4px pink bottom border. Holds the logo, the section links and the
-  pink **Join us** button (`.hdr-btn`, links to `#contact`).
+- **Sticky bar**: navy with a 4px pink bottom border. Holds the logo and the three links from the
+  approved wireframe: **Home** (`#top`), **About** (`#what`) and **Contact** (`#contact`). The
+  phone menu has the same three.
 - **Shrink on scroll**: `setupNavShrink()`.
   - Scrolling down past 120px adds `header.nav-min`; scrolling up removes it. Movements under
     6px are ignored to avoid flicker.
-  - In `nav-min` the links fade out first, then their space collapses (`max-width` → 0).
+  - In `nav-min` the words (`.nav-txt`) collapse and the links become thin Lucide icons
+    (`.nav-ico`): `House`, `Info` and `Mail`. They stay clickable, each with a 44px target, and
+    the hidden words stay in the page as the links' names for screen readers. Phones keep the
+    menu button instead.
   - The bar's `height` goes from 88px to 66px while its `margin-bottom` grows by the same 22px.
     The total space it takes never changes, so the page below does not jump.
   - The logo scales to 84%.
@@ -179,7 +187,10 @@ revisited.
     - `isnet-general-use` model for most photos.
     - `u2net_human_seg` model where arms were being cut off.
   - The photos were then turned black and white with a light contrast boost.
-  - Use the same process for new photos so they match.
+  - Use the same process for new photos so they match. Chulu's (plain wall, 800 x 1000) and
+    Juliet's (grey studio backdrop, navy border cropped off, 800 x 800) photos were cut out with a
+    Pillow script instead (flood fill of the backdrop colour from the edges), with the same
+    black-and-white finish.
 - **Track**: `.tm-track` is a horizontal scroller with CSS scroll-snap (`x mandatory`).
   - Cards are 4 across on wide screens, 3 below 1280px, 2 on tablet and 80% wide on phones.
   - The cards run the full container width. The arrows sit with the dots underneath
@@ -499,7 +510,8 @@ Visitor fills the form
 
 - Split `app.vue` into section components, and move the team and company data into data files.
 - Self-host the Circular font (WOFF2) in place of Figtree.
-- Team: photos for Juliet and Suvaal, every "Past" line, real LinkedIn links.
+- Team: a sharper photo for Suvaal (the current one is very low resolution) and Alex's real
+  LinkedIn link.
 - Contact: the Cloudflare rate-limiting rule, and Cloudflare Turnstile if spam gets through.
 - SEO: Open Graph image, Organization schema, sitemap, robots.txt, the WordPress 301 redirects.
 - Launch: add the custom domain to the effer-ventures Pages project and switch DNS, only when
