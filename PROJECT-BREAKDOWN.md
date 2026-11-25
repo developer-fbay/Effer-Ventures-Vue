@@ -206,7 +206,9 @@ revisited.
 
   To add or update someone, edit this list only.
 - **Photos**:
-  - Black-and-white cut-outs: transparent PNG, about 800px wide, in `public/images/team/`.
+  - Black-and-white cut-outs: transparent PNG, 800 x 1000, in `public/images/team/`. All 13 are
+    from the graphic designer (November 2026) and are used as delivered, each with
+    `pos: '50% 0%'`.
   - They sit on the pink-to-purple gradient in a 4:5 frame (`object-fit: cover`). On screens
     under 760px tall the frame is square (4:3 from 768 to 1024px wide), so no one's head is cut
     off.
@@ -550,8 +552,9 @@ Visitor fills the form
 
 - Split `app.vue` into section components, and move the team and company data into data files.
 - Self-host the Circular font (WOFF2) in place of Figtree.
-- Team: a sharper photo for Suvaal (the current one is very low resolution) and Alex's real
-  LinkedIn link.
+- Team: Alex's real LinkedIn link. Marcus has a designer cut-out but no card yet. A centred,
+  same-size framing of all the photos is saved outside the repo in
+  Desktop/Effer-Ventures-team-photos/centred-style if we want it later.
 - Contact: the Cloudflare rate-limiting rule, and Cloudflare Turnstile if spam gets through.
 - SEO: Open Graph image, Organization schema, sitemap, robots.txt, the WordPress 301 redirects.
 - Launch: add the custom domain to the effer-ventures Pages project and switch DNS, only when
