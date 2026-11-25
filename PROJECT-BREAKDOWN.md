@@ -131,6 +131,13 @@ revisited.
   wave layers and fifteen fish.
 - The two fish shapes (`#ev-fish-p` pink, `#ev-fish-v` violet) are drawn once in `<defs>` and
   reused with `<use>`, each with its own position, rotation and size.
+  - They are the designer's fish (`fish 2.svg` pink, `fish 1.svg` violet, drawn 671×242),
+    scaled by `matrix(0.3517 0 0 0.3517 1 -37.4)` to the old fish's length and axis. Their
+    gradients are `#ev-nfp0-2` and `#ev-nfv0-2`.
+  - The original fish are still in `<defs>` as `#ev-fish-p-old` and `#ev-fish-v-old` (unused). To
+    go back, swap the ids.
+  - The phone images (`fish-a.webp`, `fish-b.webp`, `fish-lead.webp`) still show the original
+    fish until they are rendered again.
 - The paper depth effect comes from the SVG filters in `<defs>`:
   - `#ev-paper` and `#ev-paper1`: inner shadows and highlights.
   - `#ev-fsh`: the fish drop shadow.
