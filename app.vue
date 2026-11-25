@@ -154,8 +154,9 @@
 </div>
 </div>
 <div style="display: flex; flex-direction: column; gap: 24px;">
-<h2 style="font-size: clamp(34px, 3.2vw, 52px); font-weight: 900; line-height: 1.05; letter-spacing: -1.5px; color: #00123D;">What we do</h2>
-<p style="font-size: clamp(19px, 1.6vw, 26px); font-weight: 300; line-height: 1.55; color: #58595B;">We don't write cheques and walk away. We give every management team the infrastructure to scale and we provide it ourselves: finance, marketing, HR, recruitment and systems, all handled centrally across the group, so management can spend their time growing the business.</p>
+<span class="cards-label" style="font-size: 14px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: #58595B; margin-bottom: -8px;">About us</span>
+<h2 style="font-size: clamp(34px, 3.2vw, 52px); font-weight: 900; line-height: 1.05; letter-spacing: -1.5px; color: #00123D; text-wrap: balance;">We don't write cheques and walk away.</h2>
+<p style="font-size: clamp(19px, 1.6vw, 26px); font-weight: 300; line-height: 1.55; color: #58595B;">We give every management team the infrastructure to scale and often, we provide it ourselves: finance, marketing, HR, recruitment and systems, all can be handled centrally across the group, so management can spend their time growing the business.</p>
 </div>
 </div>
 </section>
@@ -176,17 +177,17 @@
 <span class="d-logo"><img src="/images/logos/fundingbay.png" alt="Funding Bay" style="max-height: 62px;"></span>
 <span class="d-tag">Commercial finance brokerage</span>
 <span class="d-info">
-<span class="card-h">The right lender for UK SMEs</span>
-<span class="card-p">Funding Bay is a commercial finance broker for UK SMEs.</span>
+<span class="card-h">Finding the right funding for SMEs</span>
+<span class="card-p">Funding Bay is a commercial finance broker for UK SMEs, assisted with £500m+ funding.</span>
 <span class="d-visit">Visit fundingbay.co.uk&nbsp;→</span>
 </span>
 </a>
 <a class="card" href="https://fbxcapital.co.uk">
 <span class="d-logo"><img src="/images/logos/fbx.png" alt="FBX Capital Partners" style="max-height: 52px;"></span>
-<span class="d-tag">Corporate and commercial debt advisory</span>
+<span class="d-tag">Corporate finance advisory (debt)</span>
 <span class="d-info">
 <span class="card-h">3× UK FinTech Awards finalist</span>
-<span class="card-p">FBX Capital Partners is a corporate and commercial debt advisory business.</span>
+<span class="card-p">FBX Capital Partners is a boutique corporate finance advisory based in London, UK.</span>
 <span class="d-visit">Visit fbxcapital.co.uk&nbsp;→</span>
 </span>
 </a>
@@ -194,8 +195,8 @@
 <span class="d-logo"><img src="/images/logos/legends.png" alt="Legends Employer of Record" style="max-height: 72px;"></span>
 <span class="d-tag">Offshoring, South Africa</span>
 <span class="d-info">
-<span class="card-h">Offshore teams in Cape Town</span>
-<span class="card-p">Legends is an offshoring business in Cape Town.</span>
+<span class="card-h">Offshore teams in South Africa</span>
+<span class="card-p">Legends is the market-leading offshoring business for building teams in South Africa.</span>
 <span class="d-visit">Visit legendseor.com&nbsp;→</span>
 </span>
 </a>
@@ -203,8 +204,8 @@
 <span class="d-logo"><img src="/images/logos/bamops.svg" alt="Bamops" style="max-height: 72px;"></span>
 <span class="d-tag">Technology and automation</span>
 <span class="d-info">
-<span class="card-h">Builds the systems the group runs on</span>
-<span class="card-p">BAMOPS is the group's technology, automation and product business.</span>
+<span class="card-h">Tech, automation and product</span>
+<span class="card-p">Building the products, systems and rails that the group runs on.</span>
 <span class="d-visit">Visit bamops.co.uk&nbsp;→</span>
 </span>
 </a>
@@ -212,23 +213,25 @@
 <span class="d-logo"><img src="/images/logos/cwct.png" alt="Co Work Cape Town" style="max-height: 84px;"></span>
 <span class="d-tag">Workspace</span>
 <span class="d-info">
-<span class="card-h">Desks, offices and meeting rooms</span>
-<span class="card-p">Co Work Cape Town is our co-working space at Wembley Square in Gardens, Cape Town.</span>
+<span class="card-h">Premium workspace provider in Cape Town</span>
+<span class="card-p">Provides hot desking, fixed desks and custom office space for businesses in Cape Town.</span>
 <span class="d-visit">Visit coworkcapetown.com&nbsp;→</span>
 </span>
 </a>
 </div>
-<span class="cards-label" style="font-size: 14px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: #58595B;">Exited</span>
+<div class="ev-exited">
+<span class="cards-label" style="font-size: 14px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase;">Exited</span>
 <div class="cards">
 <a class="card card-out" href="https://uk.linkedin.com/company/thinkworkforce">
 <span class="d-logo"><img src="/images/logos/thinkworkforce.png" alt="ThinkWorkforce" style="max-height: 46px;"></span>
-<span class="d-tag">Medical recruitment</span>
+<span class="d-tag">Temporary recruitment</span>
 <span class="d-info">
 <span class="card-h">Sold to Bluestones Group in January 2025</span>
-<span class="card-p">ThinkWorkforce brought ThinkLocum and The Recruitment Shop together.</span>
+<span class="card-p">ThinkWorkforce was a temp recruitment roll-up focused on healthcare recruitment.</span>
 <span class="d-visit">ThinkWorkforce on LinkedIn&nbsp;→</span>
 </span>
 </a>
+</div>
 </div>
 </div>
 </section>
@@ -245,8 +248,8 @@
 <template v-if="m.noPhoto"><svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"></path></svg></template>
 </div>
 <h3 style="font-size: 28px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; color: #00123D;">{{ m.name }}</h3>
-<p style="font-size: 17px; color: #58595B;"><span style="font-weight: 900; color: #FF66CC;">Past:</span> {{ m.past }}</p>
-<p style="font-size: 17px; color: #58595B;"><span style="font-weight: 900; color: #FF66CC;">Present:</span> {{ m.present }}</p>
+<p style="font-size: 17px; color: #58595B;"><span style="font-weight: 900; color: #FF66CC;">Likes:</span> {{ m.likes }}</p>
+<p style="font-size: 17px; color: #58595B;"><span style="font-weight: 900; color: #FF66CC;">Does:</span> {{ m.does }}</p>
 <a :href="m.link" :tabindex="m.copy ? -1 : null" style="margin-top: auto; padding-top: 4px; font-size: 13px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #00123D; text-decoration: none;">LinkedIn →</a>
 </article>
 </template>
@@ -367,19 +370,20 @@ export default {
   computed: {
     team() {
       const team = [
-      { name: 'Alex Fenton', past: 'Multi-exited founder and entrepreneur', present: 'Head cheerleader', photo: '/images/team/alex.png', pos: '50% 100%', noPhoto: false, link: 'https://www.linkedin.com/' },
-      { name: 'Charlotte', past: 'M&A Analyst', present: 'Group Head of Operations', photo: '/images/team/charlotte.png', pos: '50% 25%', noPhoto: false, link: 'https://www.linkedin.com/in/charlottejames97/' },
-      { name: 'Mbali', past: 'CRM & Marketing', present: 'Founders Associate', photo: '/images/team/mbali.png', pos: '50% 25%', noPhoto: false, link: 'https://www.linkedin.com/in/mbali-sibisi-0435461b5/' },
-      { name: 'Juliet', past: 'Marketing Consultant', present: 'Growth and Marketing Manager', photo: '/images/team/juliet.png', pos: '50% 0%', noPhoto: false, link: 'https://www.linkedin.com/in/julietmey/' },
-      { name: 'Tayla-Jade', past: 'HR Officer', present: 'People & Culture Manager', photo: '/images/team/tayla-jade.png', pos: '50% 50%', noPhoto: false, link: 'https://www.linkedin.com/in/tayla-jade-teixeira-548177176/' },
-      { name: 'Lindyn', past: 'Recruitment Consultant', present: 'People & Culture Administrator', photo: '/images/team/lindyn.png', pos: '50% 25%', noPhoto: false, link: 'https://www.linkedin.com/in/lindyn-ross-7aaba4252/' },
-      { name: 'Lauren', past: 'GTM Engineer', present: 'GTM Manager', photo: '/images/team/lauren.png', pos: '50% 20%', noPhoto: false, link: 'https://www.linkedin.com/in/lauren-gracie-989664165/' },
-      { name: 'Michael', past: 'Account Manager', present: 'Digital Marketing Manager', photo: '/images/team/michael.png', pos: '50% 10%', noPhoto: false, link: 'https://www.linkedin.com/in/michael-dawson-51439a70/' },
-      { name: 'FC', past: 'Finance & Operations Manager', present: 'Group Finance Manager', photo: '/images/team/fc.png', pos: '50% 0%', noPhoto: false, link: 'https://www.linkedin.com/in/fc-schlebusch-b66156151/' },
-      { name: 'Suvaal', past: 'Audit Senior', present: 'Senior Financial Accountant', photo: '/images/team/suvaal.png', pos: '50% 10%', noPhoto: false, link: 'https://www.linkedin.com/in/suvaal-ramdutt-42289b27a/' },
-      { name: 'Austin', past: 'GTM Engineer', present: 'GTM Technical Operations Engineer', photo: '/images/team/austin.png', pos: '68% 50%', noPhoto: false, link: 'https://www.linkedin.com/in/austin-fernandez-992338284/' },
-      { name: 'Nicayla', past: 'Social Media & Content Intern', present: 'Social Media Content Specialist', photo: '/images/team/nicayla.png', pos: '50% 20%', noPhoto: false, link: 'https://www.linkedin.com/in/nicayla-de-villiers-588618228/' },
-      { name: 'Chulu', past: 'Junior Marketing Coordinator', present: 'Operations Executive', photo: '/images/team/chulu.png', pos: '50% 20%', noPhoto: false, link: 'https://www.linkedin.com/in/chulumanconxibi/' }
+      // likes and does are placeholders written from each person's job title, to be swapped for their own answers
+      { name: 'Alex Fenton', likes: 'Starting businesses and a rousing team talk', does: 'Cheer on every management team in the group', photo: '/images/team/alex.png', pos: '50% 100%', noPhoto: false, link: 'https://www.linkedin.com/' },
+      { name: 'Charlotte', likes: 'A process with no loose ends', does: 'Keep the whole group running smoothly', photo: '/images/team/charlotte.png', pos: '50% 25%', noPhoto: false, link: 'https://www.linkedin.com/in/charlottejames97/' },
+      { name: 'Mbali', likes: 'A to-do list longer than the founder’s', does: 'Turn the founders’ ideas into things that get done', photo: '/images/team/mbali.png', pos: '50% 25%', noPhoto: false, link: 'https://www.linkedin.com/in/mbali-sibisi-0435461b5/' },
+      { name: 'Juliet', likes: 'Graphs that only go up and to the right', does: 'Grow the group’s brands', photo: '/images/team/juliet.png', pos: '50% 0%', noPhoto: false, link: 'https://www.linkedin.com/in/julietmey/' },
+      { name: 'Tayla-Jade', likes: 'Team socials and a warm welcome on day one', does: 'Look after our people and our culture', photo: '/images/team/tayla-jade.png', pos: '50% 50%', noPhoto: false, link: 'https://www.linkedin.com/in/tayla-jade-teixeira-548177176/' },
+      { name: 'Lindyn', likes: 'Tidy paperwork and remembering everyone’s birthday', does: 'Keep the people side of the business organised', photo: '/images/team/lindyn.png', pos: '50% 25%', noPhoto: false, link: 'https://www.linkedin.com/in/lindyn-ross-7aaba4252/' },
+      { name: 'Lauren', likes: 'Launch days and a full pipeline', does: 'Take our products to market', photo: '/images/team/lauren.png', pos: '50% 20%', noPhoto: false, link: 'https://www.linkedin.com/in/lauren-gracie-989664165/' },
+      { name: 'Michael', likes: 'Clicks, conversions and a lower cost per lead', does: 'Run the ads that bring customers in', photo: '/images/team/michael.png', pos: '50% 10%', noPhoto: false, link: 'https://www.linkedin.com/in/michael-dawson-51439a70/' },
+      { name: 'FC', likes: 'Music and accurate numbers', does: 'Make sure the numbers are accurate', photo: '/images/team/fc.png', pos: '50% 0%', noPhoto: false, link: 'https://www.linkedin.com/in/fc-schlebusch-b66156151/' },
+      { name: 'Suvaal', likes: 'Accounts that balance first time', does: 'Keep the books in order across the group', photo: '/images/team/suvaal.png', pos: '50% 10%', noPhoto: false, link: 'https://www.linkedin.com/in/suvaal-ramdutt-42289b27a/' },
+      { name: 'Austin', likes: 'Automating any job that has to be done twice', does: 'Build the systems behind our sales and marketing', photo: '/images/team/austin.png', pos: '68% 50%', noPhoto: false, link: 'https://www.linkedin.com/in/austin-fernandez-992338284/' },
+      { name: 'Nicayla', likes: 'Trending sounds and the perfect caption', does: 'Make the content for our social channels', photo: '/images/team/nicayla.png', pos: '50% 20%', noPhoto: false, link: 'https://www.linkedin.com/in/nicayla-de-villiers-588618228/' },
+      { name: 'Chulu', likes: 'Checklists with every box ticked', does: 'Keep day-to-day operations on track', photo: '/images/team/chulu.png', pos: '50% 20%', noPhoto: false, link: 'https://www.linkedin.com/in/chulumanconxibi/' }
       ];
       return team
     },

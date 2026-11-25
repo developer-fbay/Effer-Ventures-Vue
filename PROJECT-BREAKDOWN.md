@@ -48,7 +48,7 @@ nuxt.config.ts              head tags, font, runtime config, Cloudflare preset
 - **`data()`**: `tmLoop` (team carousel copies added), `tmIdx` (current team dot) and
   `contactSending` (form button state).
 - **`computed`**:
-  - `team`: the team list (name, past, present, photo, crop position, link).
+  - `team`: the team list (name, likes, does, photo, crop position, link).
   - `teamDots`: one dot per carousel position.
 - **`mounted()`**: sets everything up in one place.
   - Grabs the refs: `plStage` (the plane), `girlBox`, `whySec` (the Join us section) and `teamTrack`.
@@ -144,7 +144,8 @@ revisited.
 
 ### What we do (`#what`)
 
-- Two columns: the plane illustration on the left, the heading and paragraph on the right.
+- Two columns: the plane illustration on the left; on the right an "About us" eyebrow, the
+  one-line heading ("We don't write cheques and walk away.") and the paragraph.
 - The illustration is `.pl-stage`: the scene image, a soft white panel that hides it until the
   plane has passed (`.pl-wipe`) and the plane image (`plane-shadow.webp`, which is `plane.png` with
   its shadow built in). It sits against the left edge and on the bottom of the section (no bottom
@@ -155,6 +156,13 @@ revisited.
 ### Our group (`#portfolio`)
 
 - **Current** and **Exited** labels, each followed by a `.cards` row.
+- **Exited band** (`.ev-exited`): the Exited label and row sit on a darker grey (`#C9D1E0`) than
+  the section, so they read as separate from the current companies. A `box-shadow` spread paints
+  the grey out to both edges and down to the end of the section, and `clip-path` stops it at the
+  band's top edge, so the cards keep the same widths as the current row.
+- **Exited cards** look greyed out at rest: a duller card (`#E5EBF1`, no shadow), the logo in
+  greyscale at 55% opacity and the sector line in grey instead of pink. Hover or focus brings the
+  logo back to full colour. Touch screens have no hover, so there the logo stays grey.
 - **Layout**: `.cards` is a flex row. Each card is
   `flex-basis: calc((100% - 3 × gap) / 4)` (4 across). At ≤1279px that becomes 3 across, at
   ≤1024px 2, and on phones 1. Rows fill from the left.
@@ -178,7 +186,10 @@ revisited.
 ### Our team (`#team`)
 
 - **Data**: the `team` computed list. Each entry has:
-  - `name`, `past`, `present`
+  - `name`
+  - `likes`, `does`: shown as "Likes:" and "Does:" on the card. The current ones are
+    placeholders written from each person's job title (FC's come from the feedback); swap in
+    each person's own answers
   - `photo`: a path, or `null` to show the placeholder icon
   - `pos`: a CSS `object-position` that sets the crop. The tall 4:5 frame mostly ignores the
     second (vertical) value; it matters in the square and 4:3 frames on short screens, so pick
